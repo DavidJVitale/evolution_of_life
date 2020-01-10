@@ -34,6 +34,17 @@ function(Map,
     var realTimeElapsedS = 0;
     var millionYearBCE = -1000;
 
+    var map = new Map({
+          basemap: null,
+        });
+
+    var view = new MapView({
+          container: "mapViewDiv",
+          map: map,
+          zoom: 3,
+          center: [0,0] // longitude, latitude
+        });
+
     /* END SHARED GLOBALS SECTION*/
 
     /*GAME STATS DIV SECTION*/
@@ -43,17 +54,7 @@ function(Map,
     /* END GAME STATS DIV SECTION*/
 
     /* ARCGIS JS API SECTION*/
-    var map = new Map({
-          basemap: null,
-        });
-
-        var view = new MapView({
-          container: "mapViewDiv",
-          map: map,
-          zoom: 3,
-          center: [0,0] // longitude, latitude
-        });
-
+    /* PLATE TETONICS SECTION */
         var layer = new ImageryLayer({
           url:
             "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
@@ -107,6 +108,12 @@ function(Map,
         }
     }, 1000);
       });
+    /* END PLATE TETONICS SECTION*/
+    /* LAND/SEA GRAPHICS LAYER SECTION*/
+
+    //Add graphics code here
+
+    /* END LAND/SEA GRAPHICS LAYER SECTION*/
     /* END ARCGIS JS API SECTION */
 /*END ALL USER CODE*/
     </script>
