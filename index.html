@@ -18,10 +18,32 @@
     <script src="https://js.arcgis.com/4.14/"></script>
 
     <script>
-require(["esri/Map", "esri/views/MapView"], function(Map, MapView) {
+require(["esri/Map",
+         "esri/views/MapView",
+         "esri/layers/ImageryLayer",
+         "esri/layers/support/MosaicRule"], 
+function(Map, 
+         MapView,
+         ImageryLayer,
+         MosaicRule) {
 
 /*START ALL USER CODE HERE*/
-var map = new Map({
+    /* SHARED GLOBALS SECTION */
+
+    var gameStarted = false;
+    var realTimeElapsedS = 0;
+    var millionYearBCE = -1000;
+
+    /* END SHARED GLOBALS SECTION*/
+
+    /*GAME STATS DIV SECTION*/
+
+    //some functions here
+
+    /* END GAME STATS DIV SECTION*/
+
+    /* ARCGIS JS API SECTION*/
+    var map = new Map({
           basemap: "streets"
         });
 
@@ -31,8 +53,40 @@ var map = new Map({
           zoom: 2,
           center: [0,0] // longitude, latitude
         });
-      });
 
+        var layer = new ImageryLayer({
+          url:
+            "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
+          mosaicRule: new MosaicRule({
+              lockRasterIds: [41,],
+              method: "lock-raster",
+              ascending: false}),
+        });
+
+       map.layers.add(layer);
+
+    var i = 41;
+   intervalUpdate200MilToPresent = setInterval(function(){
+        
+        var layer = new ImageryLayer({
+          url:
+            "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
+          mosaicRule: new MosaicRule({
+              lockRasterIds: [i,],
+              method: "lock-raster",
+              ascending: false}),
+        });
+
+        //map.layers.removeAt(0);
+        map.layers.add(layer);
+        i -= 1;
+        if(i<0){
+            console.log("Clearing 200Mil to present interval");
+            clearInterval(intervalUpdate200MilToPresent);
+        }
+    }, 1000);
+      });
+    /* END ARCGIS JS API SECTION */
 /*END ALL USER CODE*/
     </script>
   </head>
