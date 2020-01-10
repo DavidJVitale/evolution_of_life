@@ -1,10 +1,18 @@
-html, body,
-#mapViewDiv {
+html, body
+{
     padding: 0;
     margin: 0;
     height: 100%;
     width: 100%;
     position: absolute;
+}
+#mapViewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 80%;
+    float: right;
+/*    position: absolute;*/
 }
 #container {
     padding: 0;
@@ -18,14 +26,15 @@ html, body,
     height: 100%;
     width: 100%;
     z-index: 10;
-    position: absolute;
+/*    position: absolute;*/
     pointer-events:none;
 }
 #examplePopup {
     padding: 0;
     margin: 0;
-    height: 200px;
-    width: 200px;
-    position: absolute;
+    height: 100%;
+    width: 20%;
+/*    position: absolute;*/
     pointer-events:auto;
+    float: left;
 }

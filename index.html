@@ -50,7 +50,7 @@ function(Map,
         var view = new MapView({
           container: "mapViewDiv",
           map: map,
-          zoom: 2,
+          zoom: 3,
           center: [0,0] // longitude, latitude
         });
 
@@ -93,8 +93,9 @@ function(Map,
 
   <body>
     <div id="container">
-        <div id="mapViewDiv"></div>
+        
         <div id="gameStatsDiv">
+            <div id="mapViewDiv"></div>
             <div id="examplePopup"><p>Hello popup!</p></div>
         </div>
     </div>
