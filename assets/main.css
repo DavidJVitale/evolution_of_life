@@ -19,4 +19,13 @@ html, body,
     width: 100%;
     z-index: 10;
     position: absolute;
+    pointer-events:none;
+}
+#examplePopup {
+    padding: 0;
+    margin: 0;
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    pointer-events:auto;
 }
