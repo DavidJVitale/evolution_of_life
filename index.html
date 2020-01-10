@@ -18,22 +18,30 @@
     <script src="https://js.arcgis.com/4.14/"></script>
 
     <script>
-      require(["esri/Map", "esri/views/MapView"], function(Map, MapView) {
-        var map = new Map({
+require(["esri/Map", "esri/views/MapView"], function(Map, MapView) {
+
+/*START ALL USER CODE HERE*/
+var map = new Map({
           basemap: "streets"
         });
 
         var view = new MapView({
-          container: "viewDiv",
+          container: "mapViewDiv",
           map: map,
           zoom: 2,
           center: [0,0] // longitude, latitude
         });
       });
+
+/*END ALL USER CODE*/
     </script>
   </head>
 
   <body>
-    <div id="viewDiv"></div>
+    <div id="container">
+        <div id="mapViewDiv"></div>
+        <div id="gameStatsDiv">
+            <p>Hello World!</p></div>
+    </div>
   </body>
 </html>
