@@ -44,7 +44,7 @@ function(Map,
 
     /* ARCGIS JS API SECTION*/
     var map = new Map({
-          basemap: "streets"
+          basemap: null,
         });
 
         var view = new MapView({
@@ -56,29 +56,50 @@ function(Map,
 
         var layer = new ImageryLayer({
           url:
-            "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
+            "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
           mosaicRule: new MosaicRule({
               lockRasterIds: [41,],
               method: "lock-raster",
               ascending: false}),
         });
+        var layer2 = new ImageryLayer({
+          url:
+            "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
+          mosaicRule: new MosaicRule({
+              lockRasterIds: [41,],
+              method: "lock-raster",
+              ascending: false}),
+          opacity:0.8,
+        });
+
 
        map.layers.add(layer);
-
+       map.layers.add(layer2);
     var i = 41;
    intervalUpdate200MilToPresent = setInterval(function(){
         
         var layer = new ImageryLayer({
+          url:
+            "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
+          mosaicRule: new MosaicRule({
+              lockRasterIds: [i,],
+              method: "lock-raster",
+              ascending: false}),
+        });
+        var layer2 = new ImageryLayer({
           url:
             "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
           mosaicRule: new MosaicRule({
               lockRasterIds: [i,],
               method: "lock-raster",
               ascending: false}),
+          opacity:0.8,
         });
+
 
         //map.layers.removeAt(0);
         map.layers.add(layer);
+        map.layers.add(layer2);
         i -= 1;
         if(i<0){
             console.log("Clearing 200Mil to present interval");
