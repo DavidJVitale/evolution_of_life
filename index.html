@@ -58,7 +58,7 @@ function(Map,
         }, tickMs);}
 
     var map = new Map({
-          basemap: null,
+          basemap: "streets",
         });
 
     var view = new MapView({
@@ -78,8 +78,11 @@ function(Map,
 
     /* ARCGIS JS API SECTION*/
     /* PLATE TETONICS SECTION */
+
    var i = 42;
+           var j = 0;
    intervalUpdate200MilToPresent = setInterval(function(){
+
         var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+i);
         var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+i);
         i -= 1;
@@ -107,6 +110,12 @@ function(Map,
         //map.layers.addMany(newLayerHs, newLayerP);
         map.layers.add(newLayerP, 0);
         map.layers.add(newLayerHs, 1);
+       
+       console.log(j);
+        j = j+5
+       document.querySelector('input[type=range]').value = j;
+       
+       // Do the cleanup of the old layers after the new ones have loaded
         newLayerHs.load().then((_) => {
             setTimeout(function(){
                 map.remove(oldLayerHs);
@@ -119,15 +128,20 @@ function(Map,
         newLayerP.load().then((_) => {
             setTimeout(function(){
                 map.remove(oldLayerP);
+                
             }, 1000);
         }).catch((err) => {
             console.log("Error on loading newLayerP");
             console.log(err);
         });
+       
+       // Stop the interval when it is done
         if(i<0){
             console.log("Clearing 200Mil to present interval");
             clearInterval(intervalUpdate200MilToPresent);
         }
+
+
     }, 1000);
 
     /* END PLATE TETONICS SECTION*/
@@ -225,15 +239,26 @@ markerSymbol = {
     /* END ARCGIS JS API SECTION */
   });
 /*END ALL USER CODE*/
-    </script>
+var i = 0;
+setInterval(function(){
+}, 1000);    </script>
   </head>
 
   <body>
     <div id="container">
         
         <div id="gameStatsDiv">
+            <div style="width:100%;height:10%;">  <input type="range" min="1" max="100" value="1" class="myslider"></div>
             <div id="mapViewDiv"></div>
-            <div id="examplePopup"><p>Hello popup!</p></div>
+            <div id="examplePopup">
+                <div id="animalsTab">
+                    <div class="animalCardDiv"> <img class="animalCard" src="Jellyfish.png" alt="Jellyfish"></div>
+                    <div class="animalCardDiv"> <img class="animalCard" src="Bacteria.png" alt="Jellyfish"></div>
+                    <div class="animalCardDiv"> <img class="animalCard" src="Stegosaurus.png" alt="Jellyfish"></div>
+                    <div class="animalCardDiv"> <img class="animalCard" src="Stegosaurus.png" alt="Jellyfish"></div>
+
+                </div>
+            </div>
         </div>
     </div>
   </body>
