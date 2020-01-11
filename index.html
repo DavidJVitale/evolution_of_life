@@ -36,9 +36,26 @@ function(Map,
 /*START ALL USER CODE HERE*/
     /* SHARED GLOBALS SECTION */
 
-    var gameStarted = false;
+    var gameStarted = true;
     var realTimeElapsedS = 0;
-    var millionYearBCE = -1000;
+    var historicTimeElapsedMillBCE = -4000;
+
+    //TODO: Make this timer start only on the start of the game
+    const tickMs = 50;
+    if(gameStarted){
+        var globalTimerInterval = setInterval(function() {
+            realTimeElapsedS += (tickMs / 1000);
+            if(historicTimeElapsedMillBCE < -500){ 
+                // go from 4bil -> 500 mill in ~ 20 seconds
+                var magicLogMultipl = 0.995;
+                historicTimeElapsedMillBCE = historicTimeElapsedMillBCE *
+                    magicLogMultipl;}
+            else{
+                // go from 500 mill -> 0 in 40 seconds
+                historicTimeElapsedMillBCE += 0.63;
+            }
+            console.log(historicTimeElapsedMillBCE);
+        }, tickMs);}
 
     var map = new Map({
           basemap: null,
