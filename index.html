@@ -71,9 +71,7 @@ function(Map,
     var lifeForms = [{ name: "Single Cell",
                        isLand: false,
                        isOcean: true,
-                       iconUrls: ["assets/icons/piggy.png",
-                                  "assets/icons/r2d2.png",
-                                  "assets/icons/packman.png"],
+                       iconUrls: ["assets/icons/piggy.png"],
                        },
                      { name: "Bacteria",
                        isLand: false,
@@ -100,8 +98,9 @@ function(Map,
     var createdLandLife = [];
     var createdOceanLife = [];
 
-    let xy = 0;
-    let toRemove = [];
+    //Nuts-and-Bolts of Internal Processing
+    let internalcounter = 0;
+    let creaturesToRemove = [];
 
     /* END SHARED GLOBALS SECTION*/
 
@@ -115,7 +114,7 @@ function(Map,
     /* PLATE TETONICS SECTION */
 
    var i = 42;
-           var j = 0;
+   var j = 0;
    intervalUpdate200MilToPresent = setInterval(function(){
 
         var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+i);
@@ -230,19 +229,24 @@ function(Map,
 
           console.log("Removing Random Creatures");
 
-
+          //Get random number of creatures to kill
           max = Math.floor(createdLandLife.length);
           randomNumber = Math.floor(Math.random() * (max + 1));
 
-          for(xy = 0; xy < randomNumber; xy++) {
+          // This next part marks the random number of creature to be removed
+          // Initially the creatures icon is Set to Skull'n'Bones
+          for(internalcounter = 0; internalcounter < randomNumber; internalcounter++) {
               var tempGraphic = createdLandLife.pop();
-              toRemove.push(tempGraphic);
+              creaturesToRemove.push(tempGraphic);
               tempGraphic.symbol.url = "assets/icons/skull.png";
+              map.findLayerById("land-graphics-layer").remove(tempGraphic);
+              map.findLayerById("land-graphics-layer").add(tempGraphic);
           }
 
+          //After 3 Seconds remove the creatures marked for deletion
           setTimeout(function() { 
-                    for(; xy >=0 ; xy--) {
-                          map.findLayerById("land-graphics-layer").remove(toRemove.pop());
+                    for(; internalcounter >=0 ; internalcounter--) {
+                          map.findLayerById("land-graphics-layer").remove(creaturesToRemove.pop());
                     }
                     console.log("Deleting !!");
                   }, 3000);
@@ -250,6 +254,8 @@ function(Map,
           
     });
 
+
+   //If you select Bacteria, set the data type as Creature Type 1
    document.getElementById("bacteria").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
@@ -257,6 +263,7 @@ function(Map,
           console.log("Choosing Bacteria");
         });
 
+   //If you select Bacteria, set the data type as Creature Type 2
    document.getElementById("Stegosaurus1").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
@@ -264,6 +271,7 @@ function(Map,
           console.log("Choosing Stegosaurus1");
         });
 
+   //If you select Bacteria, set the data type as Creature Type 3
    document.getElementById("Stegosaurus2").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
@@ -271,7 +279,7 @@ function(Map,
           console.log("Choosing Stegosaurus2");
         });
 
-// Need to remove this next part
+// Need to remove this next part - To be use for Testing only
   var point = {
           type: "point", // autocasts as new Point()
           x: 0,
@@ -304,7 +312,10 @@ function(Map,
 /*END ALL USER CODE*/
 var i = 0;
 setInterval(function(){
-}, 1000);    </script>
+}, 1000);    
+
+</script>
+
   </head>
 
   <body>
