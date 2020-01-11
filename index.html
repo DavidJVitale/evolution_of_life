@@ -49,7 +49,7 @@ function(Map,
           map: map,
           zoom: 3,
           center: [0,0] // longitude, latitude
-        });
+        });    
 
     /* END SHARED GLOBALS SECTION*/
 
@@ -61,53 +61,57 @@ function(Map,
 
     /* ARCGIS JS API SECTION*/
     /* PLATE TETONICS SECTION */
+        var layer = new ImageryLayer({
+          id: "plate-tetonics-200-mil-hs",
+          url:
+            "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
+          mosaicRule: new MosaicRule({
+              lockRasterIds: [41,],
+              method: "lock-raster",
+              ascending: false}),
+        });
+        var layer2 = new ImageryLayer({
+          id: "plate-tetonics-200-mil",
+          url:
+            "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
+          mosaicRule: new MosaicRule({
+              lockRasterIds: [41,],
+              method: "lock-raster",
+              ascending: false}),
+          opacity:0.8,
+        });
 
-   var i = 42;
+       map.layers.add(layer, 0);
+       map.layers.add(layer2, 1);
+    var i = 41;
    intervalUpdate200MilToPresent = setInterval(function(){
-        var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+i);
-        var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+i);
-        i -= 1;
-        var newLayerHs = new ImageryLayer({
-          id: "plate-tetonics-200-mil-hs-"+i,
+        
+        var layer = new ImageryLayer({
+          id: "plate-tetonics-200-mil-hs",
           url:
             "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
           mosaicRule: new MosaicRule({
               lockRasterIds: [i,],
               method: "lock-raster",
               ascending: false}),
-         opacity:0.1
         });
-        var newLayerP = new ImageryLayer({
-          id: "plate-tetonics-200-mil-"+i,
+        var layer2 = new ImageryLayer({
+          id: "plate-tetonics-200-mil",
           url:
             "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
           mosaicRule: new MosaicRule({
               lockRasterIds: [i,],
               method: "lock-raster",
               ascending: false}),
-          opacity:1,
+          opacity:0.8,
         });
 
-        //map.layers.addMany(newLayerHs, newLayerP);
-        map.layers.add(newLayerP);
-        map.layers.add(newLayerHs);
-        newLayerHs.load().then((_) => {
-            setTimeout(function(){
-                map.remove(oldLayerHs);
-            }, 100);
-        }).catch((err) => {
-            console.log("Error on loading newLayerHs");
-            console.log(err);
-        });
-        
-        newLayerP.load().then((_) => {
-            setTimeout(function(){
-                map.remove(oldLayerP);
-            }, 1000);
-        }).catch((err) => {
-            console.log("Error on loading newLayerP");
-            console.log(err);
-        });
+
+        map.remove(map.findLayerById("plate-tetonics-200-mil-hs"));
+        map.remove(map.findLayerById("plate-tetonics-200-mil"));
+        map.layers.add(layer, 0);
+        map.layers.add(layer2, 1);
+        i -= 1;
         if(i<0){
             console.log("Clearing 200Mil to present interval");
             clearInterval(intervalUpdate200MilToPresent);
@@ -118,16 +122,20 @@ function(Map,
     /* LAND/SEA GRAPHICS LAYER SECTION*/
 
     //Add graphics code here
-    var layer = new GraphicsLayer({"id":"land-graphics-layer"});
+    let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
 
-    var point = {
+    view.on(["click"], function(event) {
+        var mapPoint = event.mapPoint;
+
+        console.log("Point clicked    " + mapPoint.x + "," + mapPoint.y);
+
+        var point = {
           type: "point", // autocasts as new Point()
-          x: -0.178,
-          y: 51.48791,
-          z: 1010
+          x: mapPoint.x,
+          y: mapPoint.y,
         };
 
-    markerSymbol = {
+        markerSymbol = {
           type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
           color: [226, 119, 40],
           outline: {
@@ -137,17 +145,70 @@ function(Map,
           }
         };
 
-    var pointGraphic = new Graphic({
+        var pointGraphic = new Graphic({
           geometry: point,
           symbol: markerSymbol
         });
 
-    var graphicB = new Graphic({  // graphic with point geometry
-                        geometry: new Point({x:0,y:0}) // set symbol here
-              });
+        map.findLayerById("land-graphics-layer").add(pointGraphic);
+        //graphicsLayer.graphics.add(pointGraphic); 
+    });
 
-    layer.graphics.add(pointGraphic);
-    map.layers.add(layer,30);
+
+var point = {
+          type: "point", // autocasts as new Point()
+          x: 0,
+          y: 0,
+        };
+
+markerSymbol = {
+          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+          color: [226, 119, 40],
+          outline: {
+            // autocasts as new SimpleLineSymbol()
+            color: [1, 1, 1],
+            width: 10
+          }
+};
+
+        var pointGraphic = new Graphic({
+          geometry: point,
+          symbol: markerSymbol
+        });
+
+        graphicsLayer.graphics.add(pointGraphic);
+
+/*
+    view.on("click", function(evt) {
+        var screenPoint = evt.screenPoint;
+
+        console.log("Point clicked" + str(screenPoint.x) + "," + str(screenPoint.y));
+
+        var point = {
+          type: "point", // autocasts as new Point()
+          x: screenPoint.x,
+          y: screenPoint.y,
+        };
+
+        markerSymbol = {
+          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+          color: [226, 119, 40],
+          outline: {
+            // autocasts as new SimpleLineSymbol()
+            color: [1, 1, 1],
+            width: 10
+          }
+        };
+
+        var pointGraphic = new Graphic({
+          geometry: point,
+          symbol: markerSymbol
+        });
+
+        layer.graphics.add(pointGraphic); 
+      });
+*/
+    map.layers.add(graphicsLayer,30);
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
     /* END ARCGIS JS API SECTION */
   });
