@@ -125,14 +125,14 @@ function(Map,
     let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
 
     view.on(["click"], function(event) {
-        var screenPoint = event.screenPoint;
+        var mapPoint = event.mapPoint;
 
-        console.log("Point clicked    " + screenPoint.x + "," + screenPoint.y);
+        console.log("Point clicked    " + mapPoint.x + "," + mapPoint.y);
 
         var point = {
           type: "point", // autocasts as new Point()
-          x: 10,
-          y: 10,
+          x: mapPoint.x,
+          y: mapPoint.y,
         };
 
         markerSymbol = {
