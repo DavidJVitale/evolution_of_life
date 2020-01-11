@@ -49,7 +49,7 @@ function(Map,
           map: map,
           zoom: 3,
           center: [0,0] // longitude, latitude
-        });
+        });    
 
     /* END SHARED GLOBALS SECTION*/
 
@@ -80,7 +80,6 @@ function(Map,
               ascending: false}),
           opacity:0.8,
         });
-
 
        map.layers.add(layer, 0);
        map.layers.add(layer2, 1);
@@ -123,16 +122,20 @@ function(Map,
     /* LAND/SEA GRAPHICS LAYER SECTION*/
 
     //Add graphics code here
-    var layer = new GraphicsLayer({"id":"land-graphics-layer"});
+    let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
 
-    var point = {
+    view.on(["click"], function(event) {
+        var screenPoint = event.screenPoint;
+
+        console.log("Point clicked    " + screenPoint.x + "," + screenPoint.y);
+
+        var point = {
           type: "point", // autocasts as new Point()
-          x: -0.178,
-          y: 51.48791,
-          z: 1010
+          x: 10,
+          y: 10,
         };
 
-    markerSymbol = {
+        markerSymbol = {
           type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
           color: [226, 119, 40],
           outline: {
@@ -142,17 +145,70 @@ function(Map,
           }
         };
 
-    var pointGraphic = new Graphic({
+        var pointGraphic = new Graphic({
           geometry: point,
           symbol: markerSymbol
         });
 
-    var graphicB = new Graphic({  // graphic with point geometry
-                        geometry: new Point({x:0,y:0}) // set symbol here
-              });
+        map.findLayerById("land-graphics-layer").add(pointGraphic);
+        //graphicsLayer.graphics.add(pointGraphic); 
+    });
 
-    layer.graphics.add(pointGraphic);
-    map.layers.add(layer,30);
+
+var point = {
+          type: "point", // autocasts as new Point()
+          x: 0,
+          y: 0,
+        };
+
+markerSymbol = {
+          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+          color: [226, 119, 40],
+          outline: {
+            // autocasts as new SimpleLineSymbol()
+            color: [1, 1, 1],
+            width: 10
+          }
+};
+
+        var pointGraphic = new Graphic({
+          geometry: point,
+          symbol: markerSymbol
+        });
+
+        graphicsLayer.graphics.add(pointGraphic);
+
+/*
+    view.on("click", function(evt) {
+        var screenPoint = evt.screenPoint;
+
+        console.log("Point clicked" + str(screenPoint.x) + "," + str(screenPoint.y));
+
+        var point = {
+          type: "point", // autocasts as new Point()
+          x: screenPoint.x,
+          y: screenPoint.y,
+        };
+
+        markerSymbol = {
+          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+          color: [226, 119, 40],
+          outline: {
+            // autocasts as new SimpleLineSymbol()
+            color: [1, 1, 1],
+            width: 10
+          }
+        };
+
+        var pointGraphic = new Graphic({
+          geometry: point,
+          symbol: markerSymbol
+        });
+
+        layer.graphics.add(pointGraphic); 
+      });
+*/
+    map.layers.add(graphicsLayer,30);
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
     /* END ARCGIS JS API SECTION */
   });
