@@ -71,8 +71,24 @@ function(Map,
     var lifeForms = [{ name: "Single Cell",
                        isLand: false,
                        isOcean: true,
-                       iconUrls: ["assets/singlecell1.jpg",
-                                  "assets/singlecell2.jpg"],
+                       iconUrls: ["assets/icons/piggy.png",
+                                  "assets/icons/r2d2.png",
+                                  "assets/icons/packman.png"],
+                       },
+                     { name: "Bacteria",
+                       isLand: false,
+                       isOcean: true,
+                       iconUrls: ["assets/icons/r2d2.png"],
+                       },
+                     { name: "Stegosaurus1",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/packman.png"],
+                       },
+                     { name: "Stegosaurus2",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/skull.png"],
                        },
                     ]
     var selectedLifeForm = lifeForms[0];
@@ -80,6 +96,12 @@ function(Map,
         return selectedLifeForm.iconUrls[Math.floor(
             Math.random() * selectedLifeForm.iconUrls.length)];
     }
+
+    var createdLandLife = [];
+    var createdOceanLife = [];
+
+    let xy = 0;
+    let toRemove = [];
 
     /* END SHARED GLOBALS SECTION*/
 
@@ -163,6 +185,7 @@ function(Map,
     //Add graphics code here
     let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
 
+    // When the user clicks add the point on Map
     view.on(["click"], function(event) {
         var mapPoint = event.mapPoint;
 
@@ -176,7 +199,7 @@ function(Map,
 
         var pictureSymbol = {
                   type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-                  url: "assets/icons/pin.png",
+                  url: selectedLifeForm["iconUrls"][0],
                   width: "32px",
                   height: "32px"
         };
@@ -196,47 +219,66 @@ function(Map,
           symbol: pictureSymbol
         });
 
+        //Add to Land creature list
+        createdLandLife.push(pointGraphic);
+
         map.findLayerById("land-graphics-layer").add(pointGraphic);
-        //graphicsLayer.graphics.add(pointGraphic); 
     });
 
+   document.getElementById("removeBtn").addEventListener("click", function(){
+          var mapPoint = event.mapPoint;
 
-var point = {
+          console.log("Removing Random Creatures");
+
+
+          max = Math.floor(createdLandLife.length);
+          randomNumber = Math.floor(Math.random() * (max + 1));
+
+          for(xy = 0; xy < randomNumber; xy++) {
+              var tempGraphic = createdLandLife.pop();
+              toRemove.push(tempGraphic);
+              tempGraphic.symbol.url = "assets/icons/skull.png";
+          }
+
+          setTimeout(function() { 
+                    for(; xy >=0 ; xy--) {
+                          map.findLayerById("land-graphics-layer").remove(toRemove.pop());
+                    }
+                    console.log("Deleting !!");
+                  }, 3000);
+
+          
+    });
+
+   document.getElementById("bacteria").addEventListener("click", function(){
+          var mapPoint = event.mapPoint;
+
+          selectedLifeForm = lifeForms[0]
+          console.log("Choosing Bacteria");
+        });
+
+   document.getElementById("Stegosaurus1").addEventListener("click", function(){
+          var mapPoint = event.mapPoint;
+
+          selectedLifeForm = lifeForms[1]
+          console.log("Choosing Stegosaurus1");
+        });
+
+   document.getElementById("Stegosaurus2").addEventListener("click", function(){
+          var mapPoint = event.mapPoint;
+
+          selectedLifeForm = lifeForms[2]
+          console.log("Choosing Stegosaurus2");
+        });
+
+// Need to remove this next part
+  var point = {
           type: "point", // autocasts as new Point()
           x: 0,
           y: 0,
         };
 
-markerSymbol = {
-          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-          color: [226, 119, 40],
-          outline: {
-            // autocasts as new SimpleLineSymbol()
-            color: [1, 1, 1],
-            width: 10
-          }
-};
-
-        var pointGraphic = new Graphic({
-          geometry: point,
-          symbol: markerSymbol
-        });
-
-        graphicsLayer.graphics.add(pointGraphic);
-
-/*
-    view.on("click", function(evt) {
-        var screenPoint = evt.screenPoint;
-
-        console.log("Point clicked" + str(screenPoint.x) + "," + str(screenPoint.y));
-
-        var point = {
-          type: "point", // autocasts as new Point()
-          x: screenPoint.x,
-          y: screenPoint.y,
-        };
-
-        markerSymbol = {
+  markerSymbol = {
           type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
           color: [226, 119, 40],
           outline: {
@@ -246,15 +288,16 @@ markerSymbol = {
           }
         };
 
-        var pointGraphic = new Graphic({
+  var pointGraphic = new Graphic({
           geometry: point,
           symbol: markerSymbol
         });
 
-        layer.graphics.add(pointGraphic); 
-      });
-*/
-    map.layers.add(graphicsLayer,30);
+  graphicsLayer.graphics.add(pointGraphic);
+// Remove till Here
+
+// Add Graphics Layer to map
+  map.layers.add(graphicsLayer,30);
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
     /* END ARCGIS JS API SECTION */
   });
@@ -272,11 +315,10 @@ setInterval(function(){
             <div id="mapViewDiv"></div>
             <div id="examplePopup">
                 <div id="animalsTab">
-                    <div class="animalCardDiv"> <img class="animalCard" src="Jellyfish.png" alt="Jellyfish"></div>
-                    <div class="animalCardDiv"> <img class="animalCard" src="Bacteria.png" alt="Jellyfish"></div>
-                    <div class="animalCardDiv"> <img class="animalCard" src="Stegosaurus.png" alt="Jellyfish"></div>
-                    <div class="animalCardDiv"> <img class="animalCard" src="Stegosaurus.png" alt="Jellyfish"></div>
-
+                    <input id="removeBtn" class="animalCardDiv animalCard" type="image" src="Jellyfish.png" alt="Jellyfish"/>
+                    <input id="bacteria" class="animalCardDiv animalCard" type="image" src="Bacteria.png" alt="Bacteria" />
+                    <input id="Stegosaurus1" class="animalCardDiv animalCard" type="image" src="Stegosaurus.png" alt="Stegosaurus" />
+                    <input id="Stegosaurus2" class="animalCardDiv animalCard" type="image" src="Stegosaurus.png" alt="Stegosaurus" />
                 </div>
             </div>
         </div>
