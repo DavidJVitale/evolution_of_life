@@ -50,6 +50,7 @@ function(Map,
         console.log(currentLayerIndex);
         var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+(currentLayerIndex+1));
         var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+(currentLayerIndex+1));
+
         var newLayerHs = new ImageryLayer({
           id: "plate-tetonics-200-mil-hs-"+currentLayerIndex,
           url: "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
