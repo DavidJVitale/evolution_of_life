@@ -58,7 +58,7 @@ function(Map,
         }, tickMs);}
 
     var map = new Map({
-          basemap: "streets",
+          basemap: "null",
         });
 
     var view = new MapView({
@@ -161,6 +161,13 @@ function(Map,
           y: mapPoint.y,
         };
 
+        var pictureSymbol = {
+                  type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                  url: "assets/icons/pin.png",
+                  width: "32px",
+                  height: "32px"
+        };
+
         markerSymbol = {
           type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
           color: [226, 119, 40],
@@ -173,7 +180,7 @@ function(Map,
 
         var pointGraphic = new Graphic({
           geometry: point,
-          symbol: markerSymbol
+          symbol: pictureSymbol
         });
 
         map.findLayerById("land-graphics-layer").add(pointGraphic);
