@@ -68,6 +68,19 @@ function(Map,
           center: [0,0] // longitude, latitude
         });    
 
+    var lifeForms = [{ name: "Single Cell",
+                       isLand: false,
+                       isOcean: true,
+                       iconUrls: ["assets/singlecell1.jpg",
+                                  "assets/singlecell2.jpg"],
+                       },
+                    ]
+    var selectedLifeForm = lifeForms[0];
+    var getSelectedLifeFormIconUrl = function(){
+        return selectedLifeForm.iconUrls[Math.floor(
+            Math.random() * selectedLifeForm.iconUrls.length)];
+    }
+
     /* END SHARED GLOBALS SECTION*/
 
     /*GAME STATS DIV SECTION*/
