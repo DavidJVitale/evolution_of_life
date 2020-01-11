@@ -21,11 +21,17 @@
 require(["esri/Map",
          "esri/views/MapView",
          "esri/layers/ImageryLayer",
-         "esri/layers/support/MosaicRule"], 
+         "esri/layers/support/MosaicRule",
+         "esri/layers/GraphicsLayer",
+         "esri/Graphic",
+         "esri/geometry/Point"], 
 function(Map, 
          MapView,
          ImageryLayer,
-         MosaicRule) {
+         MosaicRule,
+         GraphicsLayer,
+         Graphic,
+         Point) {
 
 /*START ALL USER CODE HERE*/
     /* SHARED GLOBALS SECTION */
@@ -43,7 +49,7 @@ function(Map,
           map: map,
           zoom: 3,
           center: [0,0] // longitude, latitude
-        });
+        });    
 
     /* END SHARED GLOBALS SECTION*/
 
@@ -82,28 +88,52 @@ function(Map,
    intervalUpdate200MilToPresent = setInterval(function(){
 
         var layer = new ImageryLayer({
+   var i = 42;
+   intervalUpdate200MilToPresent = setInterval(function(){
+        var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+i);
+        var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+i);
+        i -= 1;
+        var newLayerHs = new ImageryLayer({
+          id: "plate-tetonics-200-mil-hs-"+i,
           url:
             "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
           mosaicRule: new MosaicRule({
               lockRasterIds: [i,],
               method: "lock-raster",
               ascending: false}),
+         opacity:0.1
         });
-        var layer2 = new ImageryLayer({
+        var newLayerP = new ImageryLayer({
+          id: "plate-tetonics-200-mil-"+i,
           url:
             "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
           mosaicRule: new MosaicRule({
               lockRasterIds: [i,],
               method: "lock-raster",
               ascending: false}),
-          opacity:0.8,
+          opacity:1,
         });
 
-
-        //map.layers.removeAt(0);
-        map.layers.add(layer);
-        map.layers.add(layer2);
-        i -= 1;
+        //map.layers.addMany(newLayerHs, newLayerP);
+        map.layers.add(newLayerP, 0);
+        map.layers.add(newLayerHs, 1);
+        newLayerHs.load().then((_) => {
+            setTimeout(function(){
+                map.remove(oldLayerHs);
+            }, 1000);
+        }).catch((err) => {
+            console.log("Error on loading newLayerHs");
+            console.log(err);
+        });
+        
+        newLayerP.load().then((_) => {
+            setTimeout(function(){
+                map.remove(oldLayerP);
+            }, 1000);
+        }).catch((err) => {
+            console.log("Error on loading newLayerP");
+            console.log(err);
+        });
         if(i<0){
             console.log("Clearing 200Mil to present interval");
             clearInterval(intervalUpdate200MilToPresent);
@@ -112,14 +142,101 @@ function(Map,
                document.querySelector('input[type=range]').value = j;
 
     }, 1000);
-      });
+
     /* END PLATE TETONICS SECTION*/
     /* LAND/SEA GRAPHICS LAYER SECTION*/
 
     //Add graphics code here
+    let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
 
+    view.on(["click"], function(event) {
+        var mapPoint = event.mapPoint;
+
+        console.log("Point clicked    " + mapPoint.x + "," + mapPoint.y);
+
+        var point = {
+          type: "point", // autocasts as new Point()
+          x: mapPoint.x,
+          y: mapPoint.y,
+        };
+
+        markerSymbol = {
+          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+          color: [226, 119, 40],
+          outline: {
+            // autocasts as new SimpleLineSymbol()
+            color: [1, 1, 1],
+            width: 10
+          }
+        };
+
+        var pointGraphic = new Graphic({
+          geometry: point,
+          symbol: markerSymbol
+        });
+
+        map.findLayerById("land-graphics-layer").add(pointGraphic);
+        //graphicsLayer.graphics.add(pointGraphic); 
+    });
+
+
+var point = {
+          type: "point", // autocasts as new Point()
+          x: 0,
+          y: 0,
+        };
+
+markerSymbol = {
+          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+          color: [226, 119, 40],
+          outline: {
+            // autocasts as new SimpleLineSymbol()
+            color: [1, 1, 1],
+            width: 10
+          }
+};
+
+        var pointGraphic = new Graphic({
+          geometry: point,
+          symbol: markerSymbol
+        });
+
+        graphicsLayer.graphics.add(pointGraphic);
+
+/*
+    view.on("click", function(evt) {
+        var screenPoint = evt.screenPoint;
+
+        console.log("Point clicked" + str(screenPoint.x) + "," + str(screenPoint.y));
+
+        var point = {
+          type: "point", // autocasts as new Point()
+          x: screenPoint.x,
+          y: screenPoint.y,
+        };
+
+        markerSymbol = {
+          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+          color: [226, 119, 40],
+          outline: {
+            // autocasts as new SimpleLineSymbol()
+            color: [1, 1, 1],
+            width: 10
+          }
+        };
+
+        var pointGraphic = new Graphic({
+          geometry: point,
+          symbol: markerSymbol
+        });
+
+        layer.graphics.add(pointGraphic); 
+      });
+*/
+    map.layers.add(graphicsLayer,30);
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
     /* END ARCGIS JS API SECTION */
+  });
 /*END ALL USER CODE*/
 var i = 0;
 setInterval(function(){

@@ -26,6 +26,8 @@ html, body
     width: 100%;
     z-index: 10;
     pointer-events:none;
+
+/*    position: absolute;*/
 }
 #examplePopup {
     padding: 0;
@@ -33,6 +35,8 @@ html, body
     height: 100%;
     width: 19.5%;
     pointer-events:auto;
+    width: 20%;
+/*    position: absolute;*/
     float: left;
     border-right: solid;
 
