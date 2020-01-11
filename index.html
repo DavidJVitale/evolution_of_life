@@ -35,7 +35,7 @@ function(Map,
     var millionYearBCE = -1000;
 
     var map = new Map({
-          basemap: null,
+          basemap: "streets",
         });
 
     var view = new MapView({
@@ -77,8 +77,10 @@ function(Map,
        map.layers.add(layer);
        map.layers.add(layer2);
     var i = 41;
+    var j = 0;
+
    intervalUpdate200MilToPresent = setInterval(function(){
-        
+
         var layer = new ImageryLayer({
           url:
             "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
@@ -106,6 +108,9 @@ function(Map,
             console.log("Clearing 200Mil to present interval");
             clearInterval(intervalUpdate200MilToPresent);
         }
+       j = j+5
+               document.querySelector('input[type=range]').value = j;
+
     }, 1000);
       });
     /* END PLATE TETONICS SECTION*/
@@ -116,15 +121,26 @@ function(Map,
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
     /* END ARCGIS JS API SECTION */
 /*END ALL USER CODE*/
-    </script>
+var i = 0;
+setInterval(function(){
+}, 1000);    </script>
   </head>
 
   <body>
     <div id="container">
         
         <div id="gameStatsDiv">
+            <div style="width:100%;height:10%;">  <input type="range" min="1" max="100" value="10" class="myslider"></div>
             <div id="mapViewDiv"></div>
-            <div id="examplePopup"><p>Hello popup!</p></div>
+            <div id="examplePopup">
+                <div id="animalsTab">
+                    <div class="animalCardDiv"> <img class="animalCard" src="Jellyfish.png" alt="Jellyfish"></div>
+                    <div class="animalCardDiv"> <img class="animalCard" src="Bacteria.png" alt="Jellyfish"></div>
+                    <div class="animalCardDiv"> <img class="animalCard" src="Stegosaurus.png" alt="Jellyfish"></div>
+                    <div class="animalCardDiv"> <img class="animalCard" src="Stegosaurus.png" alt="Jellyfish"></div>
+
+                </div>
+            </div>
         </div>
     </div>
   </body>
