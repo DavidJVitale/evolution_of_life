@@ -62,22 +62,27 @@ function(Map,
     var lifeForms = [{ name: "Single Cell",
                        isLand: false,
                        isOcean: true,
-                       iconUrls: ["assets/icons/piggy.png"],
+                       iconUrls: ["assets/icons/Bacteria_Symbol.png"],
                        },
-                     { name: "Bacteria",
+                     { name: "Fish",
                        isLand: false,
                        isOcean: true,
-                       iconUrls: ["assets/icons/r2d2.png"],
+                       iconUrls: ["assets/icons/Shark_Symbol.png"],
                        },
-                     { name: "Stegosaurus1",
+                     { name: "Plant",
                        isLand: true,
                        isOcean: false,
-                       iconUrls: ["assets/icons/packman.png"],
+                       iconUrls: ["assets/icons/Fern_Symbol.png"],
                        },
-                     { name: "Stegosaurus2",
+                     { name: "Dino",
                        isLand: true,
                        isOcean: false,
-                       iconUrls: ["assets/icons/skull.png"],
+                       iconUrls: ["assets/icons/Stegosaurus_Symbol.png"],
+                       },
+                     { name: "Primate",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/Primate_Symbol.png"],
                        },
                     ];
 
@@ -170,6 +175,7 @@ function drawLayer(){
 
         var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+(currentLayerIndex+1));
         var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+(currentLayerIndex+1));
+        //i -= 1;
         var newLayerHs = new ImageryLayer({
           id: "plate-tetonics-200-mil-hs-"+currentLayerIndex,
           url:
@@ -280,8 +286,8 @@ function TriggerExtinction(threshold) {
         var pictureSymbol = {
                   type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                   url: selectedLifeForm["iconUrls"][0],
-                  width: "32px",
-                  height: "32px"
+                  width: "64px",
+                  height: "64px"
         };
 
         markerSymbol = {
@@ -307,6 +313,7 @@ function TriggerExtinction(threshold) {
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
 
     /* EVENT HANDLER SECTION */
+   /* 
    document.getElementById("removeBtn").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
@@ -333,30 +340,45 @@ function TriggerExtinction(threshold) {
                     }
                     console.log("Deleting !!");
                   }, 3000);
-    });
+    }); */
 
-   //If you select Bacteria, set the data type as Creature Type 1
-   document.getElementById("bacteria").addEventListener("click", function(){
+   document.getElementById("type1").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
           selectedLifeForm = lifeForms[0]
           console.log("Choosing Bacteria");
    });
 
-   //If you select Bacteria, set the data type as Creature Type 2
-   document.getElementById("Stegosaurus1").addEventListener("click", function(){
+   //If you select Fish, set the data type as Creature Type 2
+   document.getElementById("type2").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
           selectedLifeForm = lifeForms[1]
-          console.log("Choosing Stegosaurus1");
+          console.log("Choosing Shark");
    });
 
-   //If you select Bacteria, set the data type as Creature Type 3
-   document.getElementById("Stegosaurus2").addEventListener("click", function(){
+   //If you select Plant, set the data type as Creature Type 3
+   document.getElementById("type3").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
           selectedLifeForm = lifeForms[2]
-          console.log("Choosing Stegosaurus2");
+          console.log("Choosing Plant");
+   });
+
+   //If you select Dino, set the data type as Creature Type 3
+   document.getElementById("type4").addEventListener("click", function(){
+          var mapPoint = event.mapPoint;
+
+          selectedLifeForm = lifeForms[3]
+          console.log("Choosing Dino");
+   });
+
+   //If you select Primate, set the data type as Creature Type 3
+   document.getElementById("type5").addEventListener("click", function(){
+          var mapPoint = event.mapPoint;
+
+          selectedLifeForm = lifeForms[4]
+          console.log("Choosing Primate");
    });
     /* END EVENT HANDLER SECTION */  
     /* END ARCGIS JS API SECTION */
@@ -378,15 +400,15 @@ setInterval(function(){
     <div id="container">
         
         <div id="gameStatsDiv">
-            <div class="logo"> </div>
-            <div style="width:1344px;height:149px;float:right">  <input type="range" min="-4000" max="0" value="-4000" class="myslider"></div>
+            <div style="width:100%;height:10%;">  <input type="range" min="-4000" max="0" value="-4000" class="myslider"></div>
             <div id="mapViewDiv"></div>
             <div id="examplePopup">
                 <div id="animalsTab">
-                    <input id="removeBtn" class="animalCardDiv animalCard" type="image" src="assets/tiles/Jellyfish.png" alt="Jellyfish"/>
-                    <input id="bacteria" class="animalCardDiv animalCard" type="image" src="assets/tiles/Bacteria.png" alt="Bacteria" />
-                    <input id="Stegosaurus1" class="animalCardDiv animalCard" type="image" src="assets/tiles/Stegosaurus.png" alt="Stegosaurus" />
-                    <input id="Stegosaurus2" class="animalCardDiv animalCard" type="image" src="assets/tiles/Shark.png" alt="Stegosaurus" />
+                    <input id="type1" class="animalCardDiv animalCard" type="image" src="assets/tiles/Bacteria.png" alt="Bacteria"/>
+                    <input id="type2" class="animalCardDiv animalCard" type="image" src="assets/tiles/Shark.png" alt="Shark" />
+                    <input id="type3" class="animalCardDiv animalCard" type="image" src="assets/tiles/Fern.png" alt="Plant" />
+                    <input id="type4" class="animalCardDiv animalCard" type="image" src="assets/tiles/Stegosaurus.png" alt="Dino" />
+                    <input id="type5" class="animalCardDiv animalCard" type="image" src="assets/tiles/Primate.png" alt="Primate" />
                 </div>
             </div>
         </div>
