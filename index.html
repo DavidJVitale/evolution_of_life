@@ -374,14 +374,6 @@ function TriggerExtinction(threshold) {
           selectedLifeForm = lifeForms[3]
           console.log("Choosing Dino");
    });
-
-   //If you select Primate, set the data type as Creature Type 3
-   document.getElementById("type5").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[4]
-          console.log("Choosing Primate");
-   });
     /* END EVENT HANDLER SECTION */  
     /* END ARCGIS JS API SECTION */
 
@@ -409,8 +401,7 @@ setInterval(function(){
                     <input id="type1" class="animalCardDiv animalCard" type="image" src="assets/tiles/Bacteria.png" alt="Bacteria"/>
                     <input id="type2" class="animalCardDiv animalCard" type="image" src="assets/tiles/Shark.png" alt="Shark" />
                     <input id="type3" class="animalCardDiv animalCard" type="image" src="assets/tiles/Fern.png" alt="Plant" />
-                    <input id="type4" class="animalCardDiv animalCard" type="image" src="assets/tiles/Stegosaurus.png" alt="Dino" />
-                    <input id="type5" class="animalCardDiv animalCard" type="image" src="assets/tiles/Primate.png" alt="Primate" />
+                    <input id="type4" class="animalCardDiv animalCard" type="image" src="assets/tiles/Stegosaurus.png" alt="Dino" />              
                 </div>
             </div>
         </div>
