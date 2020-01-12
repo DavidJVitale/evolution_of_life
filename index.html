@@ -330,7 +330,6 @@ function CreateNewPoint(x,y,imageurl) {
     return pointGraphic;
 }
     function tileRotation(){
-        console.log(Math.floor(historicTimeElapsedMillBCE));
         if(Math.floor(historicTimeElapsedMillBCE)===-3512 ){
             console.log("Adding bacteria tile");
             card = document.getElementById("type1")
@@ -339,7 +338,7 @@ function CreateNewPoint(x,y,imageurl) {
             card.className += "animalCard"; 
             document.getElementById("type1").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[0]
+              selectedLifeForm = lifeForms[0];
             });
 
         }
@@ -349,9 +348,9 @@ function CreateNewPoint(x,y,imageurl) {
             card.setAttribute("src","assets/tiles/Fungi.png")
             card.className += "animalDiv "; 
             card.className += "animalCard"; 
-            document.getElementById("type1").addEventListener("click", function(){
+            document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[1]
+              selectedLifeForm = lifeForms[1];   
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-805){
@@ -360,9 +359,9 @@ function CreateNewPoint(x,y,imageurl) {
             card.setAttribute("src","assets/tiles/Algae.png")
             card.className += "animalDiv "; 
             card.className += "animalCard"; 
-            document.getElementById("type1").addEventListener("click", function(){
+            document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[2]
+              selectedLifeForm = lifeForms[2];
             });
 
         }
@@ -372,9 +371,9 @@ function CreateNewPoint(x,y,imageurl) {
             card.setAttribute("src","assets/tiles/Jellyfish.png")
             card.className += "animalDiv "; 
             card.className += "animalCard"; 
-            document.getElementById("type1").addEventListener("click", function(){
+            document.getElementById("type4").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[3]
+              selectedLifeForm = lifeForms[3];
             });
 
         }
@@ -386,7 +385,7 @@ function CreateNewPoint(x,y,imageurl) {
             card.className += "animalCard"; 
             document.getElementById("type1").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[4]
+              selectedLifeForm = lifeForms[4];
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-350){
@@ -395,9 +394,9 @@ function CreateNewPoint(x,y,imageurl) {
             card.setAttribute("src","assets/tiles/Shark.png")
             card.className += "animalDiv "; 
             card.className += "animalCard"; 
-            document.getElementById("type1").addEventListener("click", function(){
+            document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[5]
+              selectedLifeForm = lifeForms[5];
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-350){
@@ -406,9 +405,9 @@ function CreateNewPoint(x,y,imageurl) {
             card.setAttribute("src","assets/tiles/Fern.png")
             card.className += "animalDiv "; 
             card.className += "animalCard"; 
-            document.getElementById("type1").addEventListener("click", function(){
+            document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[6]
+              selectedLifeForm = lifeForms[6];
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-225){
@@ -417,9 +416,9 @@ function CreateNewPoint(x,y,imageurl) {
             card.setAttribute("src","assets/tiles/Stegosaurus.png")
             card.className += "animalDiv "; 
             card.className += "animalCard";
-            document.getElementById("type1").addEventListener("click", function(){
+            document.getElementById("type4").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[7]
+              selectedLifeForm = lifeForms[7];
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-225){
@@ -430,7 +429,7 @@ function CreateNewPoint(x,y,imageurl) {
             card.className += "animalCard"; 
             document.getElementById("type1").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[8]
+              selectedLifeForm = lifeForms[8];
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-66){
@@ -439,9 +438,9 @@ function CreateNewPoint(x,y,imageurl) {
             card.setAttribute("src","assets/tiles/Parrot.png")
             card.className += "animalDiv "; 
             card.className += "animalCard"; 
-            document.getElementById("type1").addEventListener("click", function(){
+            document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[9]
+              selectedLifeForm = lifeForms[9];
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-55){
@@ -450,9 +449,9 @@ function CreateNewPoint(x,y,imageurl) {
             card.setAttribute("src","assets/tiles/Primate.png")
             card.className += "animalDiv "; 
             card.className += "animalCard"; 
-            document.getElementById("type1").addEventListener("click", function(){
+            document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
-              selectedLifeForm = lifeForms[10]
+              selectedLifeForm = lifeForms[10];
             });
         }
     }
