@@ -236,7 +236,9 @@ function(Map,
                     twelver += 1
                     if(twelver%19 == 0){
                         twelver = 0;
-                        currentLayerIndex -= 1;
+                        if(currentLayerIndex!=2){
+                            currentLayerIndex -= 1;
+                        }
                         drawLayer();
                     }
                 }
