@@ -41,13 +41,93 @@ function(Map,
     var historicTimeElapsedMillBCE = -4000;
     var currentLayerIndex = 41;
     const tickMs = 50;
-    function startGame(){
-        gameStarted = true;
-        drawLayer()
-        setTimeout(function() {
-            startSliderAndUpdatingLayer();          
-        }, 2000);
+
+    var map = new Map({
+          basemap: "null",
+        });
+
+    var view = new MapView({
+          container: "mapViewDiv",
+          map: map,
+          zoom: 3,
+          center: [0,0] // longitude, latitude
+        });    
+
+    let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
+    map.layers.add(graphicsLayer,30);
+    
+    var createdLandLife = [];
+    var createdOceanLife = [];
+
+    var lifeForms = [{ name: "Single Cell",
+                       isLand: false,
+                       isOcean: true,
+                       iconUrls: ["assets/icons/piggy.png"],
+                       },
+                     { name: "Bacteria",
+                       isLand: false,
+                       isOcean: true,
+                       iconUrls: ["assets/icons/r2d2.png"],
+                       },
+                     { name: "Stegosaurus1",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/packman.png"],
+                       },
+                     { name: "Stegosaurus2",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/skull.png"],
+                       },
+                    ];
+
+    var extinctions = [{ name: "Cretaceous",
+                         value: -65,
+                         kill: 17,
+                         completed: false
+                       },
+                       { name: "Triassic",
+                         value: -200,
+                         kill: 20,
+                         completed: false
+                       },
+                       { name: "Permian",
+                         value: -250,
+                         kill: 83,
+                         completed: false
+                       },
+                       { name: "Devonian",
+                         value: -370,
+                         kill: 70,
+                         completed: false
+                       },
+                       { name: "Ordovician",
+                         value: -445,
+                         kill: 57,
+                         completed: false
+                       },
+                      ];
+
+    var selectedLifeForm = lifeForms[0];
+    var getSelectedLifeFormIconUrl = function(){
+        return selectedLifeForm.iconUrls[Math.floor(
+            Math.random() * selectedLifeForm.iconUrls.length)];
     }
+
+    //Nuts-and-Bolts for Internal Processing
+    let internalcounter = 0;
+    let creaturesToRemove = [];
+
+    /* END SHARED GLOBALS SECTION*/
+
+    /*GAME STATS DIV SECTION*/
+
+    //some functions here
+
+    /* END GAME STATS DIV SECTION*/
+
+    /* ARCGIS JS API SECTION*/
+    /* PLATE TETONICS SECTION */
     function setTimeSliderValue(val){
         document.querySelector('input[type=range]').value = val;
     }
@@ -58,6 +138,7 @@ function(Map,
                 if(historicTimeElapsedMillBCE >=0){
                     return;
                 }
+
                 realTimeElapsedS += (tickMs / 1000);
                 if(historicTimeElapsedMillBCE < -500){ 
                     // go from 4bil -> 500 mill in ~ 20 seconds
@@ -76,13 +157,14 @@ function(Map,
                 }
                 setTimeSliderValue(historicTimeElapsedMillBCE);
                 // console.log(historicTimeElapsedMillBCE);
+                console.log("historicTimeElapsedMillBCE" + historicTimeElapsedMillBCE);
+                console.log("realTimeElapsedS" + realTimeElapsedS);
+                CheckExtinctions(historicTimeElapsedMillBCE);
 
             }, tickMs);}
     }
 
 function drawLayer(){
-//   var i = 42;
-//           var j = 0;
    intervalUpdate200MilToPresent = setTimeout(function(){
        console.log(currentLayerIndex);
 
@@ -132,93 +214,58 @@ function drawLayer(){
             console.log(err);
         });
 
-
+        console.log("historicTimeElapsedMillBCE" + historicTimeElapsedMillBCE);
+        console.log("realTimeElapsedS" + realTimeElapsedS);
     }, 1);
 }
+    /* END PLATE TETONICS SECTION*/
 
+    /* GAME ENGINE */
+function startGame(){
+    gameStarted = true;
+    drawLayer()
+    setTimeout(function() {
+          startSliderAndUpdatingLayer();          
+    }, 2000);
+}
+function CheckExtinctions(sliderTime) {
+    console.log("Check Extinctions")
+    for(i = 0; i < extinctions.length; i++) {
+      if( sliderTime > extinctions[i].value && !extinctions[i].completed) {
+          TriggerExtinction(extinctions[i].kill);
+          extinctions[i].completed = true;
+          return;
+      } 
+    } 
+}
 
-    var map = new Map({
-          basemap: "null",
-        });
+function TriggerExtinction(threshold) {
+  
+    console.log("Removing " + threshold + "% of Creatures");
 
-    var view = new MapView({
-          container: "mapViewDiv",
-          map: map,
-          zoom: 3,
-          center: [0,0] // longitude, latitude
-        });    
+    var creaturesToKill = Math.floor(createdLandLife.length) * threshold / 100;
 
-    var lifeForms = [{ name: "Single Cell",
-                       isLand: false,
-                       isOcean: true,
-                       iconUrls: ["assets/icons/piggy.png"],
-                       },
-                     { name: "Bacteria",
-                       isLand: false,
-                       isOcean: true,
-                       iconUrls: ["assets/icons/r2d2.png"],
-                       },
-                     { name: "Stegosaurus1",
-                       isLand: true,
-                       isOcean: false,
-                       iconUrls: ["assets/icons/packman.png"],
-                       },
-                     { name: "Stegosaurus2",
-                       isLand: true,
-                       isOcean: false,
-                       iconUrls: ["assets/icons/skull.png"],
-                       },
-                    ];
-
-    var extinctions = [{ name: "Ordovician",
-                         value: 445,
-                       },
-                       { name: "Devonian",
-                         value: 370,
-                       },
-                       { name: "Permian",
-                         value: 250,
-                       },
-                       { name: "Triassic",
-                         value: 200,
-                       },
-                       { name: "Cretaceous",
-                         value: 65,
-                       },
-                    ];
-
-    var selectedLifeForm = lifeForms[0];
-    var getSelectedLifeFormIconUrl = function(){
-        return selectedLifeForm.iconUrls[Math.floor(
-            Math.random() * selectedLifeForm.iconUrls.length)];
+    // This next part marks the number of creature to be removed
+    // Initially the creatures icon is Set to Skull'n'Bones
+    for(internalcounter = 0; internalcounter < creaturesToKill; internalcounter++) {
+        var tempGraphic = createdLandLife.pop();
+        creaturesToRemove.push(tempGraphic);
+        tempGraphic.symbol.url = "assets/icons/skull.png";
+        map.findLayerById("land-graphics-layer").remove(tempGraphic);
+        map.findLayerById("land-graphics-layer").add(tempGraphic);
     }
 
-    var createdLandLife = [];
-    var createdOceanLife = [];
+    //After 3 Seconds remove the creatures marked for deletion
+    setTimeout(function() { 
+            for(; internalcounter >=0 ; internalcounter--) {
+                  map.findLayerById("land-graphics-layer").remove(creaturesToRemove.pop());
+            }
+            console.log("Deleting !!");
+    }, 3000);
+}
+    /* END GAME ENGINE */
 
-    //Nuts-and-Bolts of Internal Processing
-    let internalcounter = 0;
-    let creaturesToRemove = [];
-
-    /* END SHARED GLOBALS SECTION*/
-
-    /*GAME STATS DIV SECTION*/
-
-    //some functions here
-
-    /* END GAME STATS DIV SECTION*/
-
-    /* ARCGIS JS API SECTION*/
-    /* PLATE TETONICS SECTION */
-
-
-    /* END PLATE TETONICS SECTION*/
-    /* LAND/SEA GRAPHICS LAYER SECTION*/
-
-    startGame();
-    //Add graphics code here
-    let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
-
+    /* LAND/SEA GRAPHICS LAYER SECTION*/      
     // When the user clicks add the point on Map
     view.on(["click"], function(event) {
         var mapPoint = event.mapPoint;
@@ -258,7 +305,9 @@ function drawLayer(){
 
         map.findLayerById("land-graphics-layer").add(pointGraphic);
     });
+    /* END LAND/SEA GRAPHICS LAYER SECTION*/
 
+    /* EVENT HANDLER SECTION */
    document.getElementById("removeBtn").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
@@ -287,14 +336,13 @@ function drawLayer(){
                   }, 3000);
     });
 
-
    //If you select Bacteria, set the data type as Creature Type 1
    document.getElementById("bacteria").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
 
           selectedLifeForm = lifeForms[0]
           console.log("Choosing Bacteria");
-        });
+   });
 
    //If you select Bacteria, set the data type as Creature Type 2
    document.getElementById("Stegosaurus1").addEventListener("click", function(){
@@ -302,7 +350,7 @@ function drawLayer(){
 
           selectedLifeForm = lifeForms[1]
           console.log("Choosing Stegosaurus1");
-        });
+   });
 
    //If you select Bacteria, set the data type as Creature Type 3
    document.getElementById("Stegosaurus2").addEventListener("click", function(){
@@ -310,37 +358,13 @@ function drawLayer(){
 
           selectedLifeForm = lifeForms[2]
           console.log("Choosing Stegosaurus2");
-        });
-
-// Need to remove this next part - To be use for Testing only
-  var point = {
-          type: "point", // autocasts as new Point()
-          x: 0,
-          y: 0,
-        };
-
-  markerSymbol = {
-          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-          color: [226, 119, 40],
-          outline: {
-            // autocasts as new SimpleLineSymbol()
-            color: [1, 1, 1],
-            width: 10
-          }
-        };
-
-  var pointGraphic = new Graphic({
-          geometry: point,
-          symbol: markerSymbol
-        });
-
-  graphicsLayer.graphics.add(pointGraphic);
-// Remove till Here
-
-// Add Graphics Layer to map
-  map.layers.add(graphicsLayer,30);
-    /* END LAND/SEA GRAPHICS LAYER SECTION*/
+   });
+    /* END EVENT HANDLER SECTION */  
     /* END ARCGIS JS API SECTION */
+
+  /* START THE GAME */
+    startGame();
+  /* END START THE GAME SECTION */
   });
 /*END ALL USER CODE*/
 var i = 0;
