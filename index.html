@@ -58,34 +58,62 @@ function(Map,
     
     var createdLandLife = [];
     var createdOceanLife = [];
-
     var lifeForms = [{ name: "Single Cell",
                        isLand: false,
                        isOcean: true,
                        iconUrls: ["assets/icons/Bacteria_Symbol.png"],
                        },
-                     { name: "Fish",
-                       isLand: false,
-                       isOcean: true,
+                     { name: "Multi Cell",
+                       isLand: true,
+                       isOcean: false,
                        iconUrls: ["assets/icons/Shark_Symbol.png"],
                        },
-                     { name: "Plant",
-                       isLand: true,
-                       isOcean: false,
+                     { name: "Algae",
+                       isLand: false,
+                       isOcean: true,
                        iconUrls: ["assets/icons/Fern_Symbol.png"],
                        },
-                     { name: "Dino",
-                       isLand: true,
-                       isOcean: false,
+                     { name: "Jelly Fish",
+                       isLand: false,
+                       isOcean: true,
                        iconUrls: ["assets/icons/Stegosaurus_Symbol.png"],
                        },
-                     { name: "Primate",
+                     { name: "Insects",
                        isLand: true,
                        isOcean: false,
                        iconUrls: ["assets/icons/Primate_Symbol.png"],
                        },
+                    { name: "Fish",
+                       isLand: false,
+                       isOcean: true,
+                       iconUrls: ["assets/icons/Primate_Symbol.png"],
+                       },
+                    { name: "Trees",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/Primate_Symbol.png"],
+                       },
+                     { name: "Dinosaurs",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/Primate_Symbol.png"],
+                       },
+                    { name: "Mammals",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/Primate_Symbol.png"],
+                       },
+                    { name: "Birds",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/Primate_Symbol.png"],
+                       },
+                    { name: "Primates",
+                       isLand: true,
+                       isOcean: false,
+                       iconUrls: ["assets/icons/Primate_Symbol.png"],
+                    }
                     ];
-
     var extinctions = [{ name: "Cretaceous",
                          value: -65,
                          kill: 17,
@@ -199,7 +227,7 @@ function(Map,
                 setTimeSliderValue(historicTimeElapsedMillBCE);
                 // console.log(historicTimeElapsedMillBCE);
                 CheckExtinctions(historicTimeElapsedMillBCE);
-
+                tileRotation();
             }, tickMs);}
     }
 
@@ -301,6 +329,133 @@ function CreateNewPoint(x,y,imageurl) {
 
     return pointGraphic;
 }
+    function tileRotation(){
+        console.log(Math.floor(historicTimeElapsedMillBCE));
+        if(Math.floor(historicTimeElapsedMillBCE)===-3512 ){
+            console.log("Adding bacteria tile");
+            card = document.getElementById("type1")
+            card.setAttribute("src","assets/tiles/Bacteria.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[0]
+            });
+
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-1506){
+            console.log("Adding Multicell tile");
+            card = document.getElementById("type2")
+            card.setAttribute("src","assets/tiles/Fungi.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[1]
+            });
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-805){
+            console.log("Adding Algae tile");
+            card = document.getElementById("type3")
+            card.setAttribute("src","assets/tiles/Algae.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[2]
+            });
+
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-500){
+            console.log("Adding JellyFish tile");
+            card = document.getElementById("type4")
+            card.setAttribute("src","assets/tiles/Jellyfish.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[3]
+            });
+
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-400){
+            console.log("Adding Insect tile");
+            card = document.getElementById("type1")
+            card.setAttribute("src","assets/tiles/Beetle.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[4]
+            });
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-350){
+            console.log("Adding Fish tile");
+            card = document.getElementById("type2")
+            card.setAttribute("src","assets/tiles/Shark.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[5]
+            });
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-350){
+            console.log("Adding Trees tile");
+            card = document.getElementById("type3")
+            card.setAttribute("src","assets/tiles/Fern.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[6]
+            });
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-225){
+            console.log("Adding Dino tile");
+            card = document.getElementById("type4")
+            card.setAttribute("src","assets/tiles/Stegosaurus.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard";
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[7]
+            });
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-225){
+            console.log("Adding Pig tile");
+            card = document.getElementById("type1")
+            card.setAttribute("src","assets/tiles/Pig.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[8]
+            });
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-66){
+            console.log("Adding Birds tile");
+            card = document.getElementById("type2")
+            card.setAttribute("src","assets/tiles/Parrot.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[9]
+            });
+        }
+        if(Math.floor(historicTimeElapsedMillBCE)===-55){
+            console.log("Adding Primates tile");
+            card = document.getElementById("type3")
+            card.setAttribute("src","assets/tiles/Primate.png")
+            card.className += "animalDiv "; 
+            card.className += "animalCard"; 
+            document.getElementById("type1").addEventListener("click", function(){
+              var mapPoint = event.mapPoint;
+              selectedLifeForm = lifeForms[10]
+            });
+        }
+    }
 
 function PopulationExplosionAfterExtinctions() {
     console.log("Population Explosion After Extinctions")
@@ -431,10 +586,10 @@ setInterval(function(){
             <div id="mapViewDiv"></div>
             <div id="examplePopup">
                 <div id="animalsTab">
-                    <input id="type1" class="animalCardDiv animalCard" type="image" src="assets/tiles/Bacteria.png" alt="Bacteria"/>
-                    <input id="type2" class="animalCardDiv animalCard" type="image" src="assets/tiles/Shark.png" alt="Shark" />
-                    <input id="type3" class="animalCardDiv animalCard" type="image" src="assets/tiles/Fern.png" alt="Plant" />
-                    <input id="type4" class="animalCardDiv animalCard" type="image" src="assets/tiles/Stegosaurus.png" alt="Dino" />              
+                    <input id="type1" class="" type="image" src="" alt=""/>
+                    <input id="type2" class="" type="image" src="" alt="" />
+                    <input id="type3" class="" type="image" src="" alt="" />
+                    <input id="type4" class="" type="image" src="" alt="" />              
                 </div>
             </div>
         </div>
