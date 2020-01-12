@@ -319,8 +319,6 @@ function(Map,
 
 function drawLayer(){
    intervalUpdate200MilToPresent = setTimeout(function(){
-       console.log(currentLayerIndex);
-
         var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+(currentLayerIndex+1));
         var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+(currentLayerIndex+1));
         //i -= 1;
@@ -379,16 +377,26 @@ function startGame(){
           startSliderAndUpdatingLayer();          
     }, 2000);
 }
+
 function CheckExtinctions(sliderTime) {
     for(i = 0; i < extinctions.length; i++) {
       if( sliderTime > extinctions[i].value && !extinctions[i].completed) {
           TriggerExtinction(extinctions[i].kill);
           extinctions[i].completed = true;
 
+          //Set announcements
+          AddAnnouncements(i+1);
+          //Remove announcement after 10 seconds
+          setTimeout(function() {
+                        RemoveAnnouncements();          
+                  }, 4000);
+
           // Trigger population explosion after extinction after 3 seconds
           setTimeout(function() {
                       PopulationExplosionAfterExtinctions();          
                   }, 3000);
+
+          
           return;
       } 
     } 
@@ -615,39 +623,19 @@ function TriggerExtinction(threshold) {
     });
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
 
-    /* EVENT HANDLER SECTION */
+    /* ANNOUNCEMENT SECTION */
+  function AddAnnouncements(index) {  
+      var img = document.createElement('img');
+      img.setAttribute("id", "announcement");
+      img.src = "assets/announce/Announcement"+index+".png";
+      document.getElementById('announce').appendChild(img); 
+  }  
 
-   document.getElementById("type1").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[0]
-          console.log("Choosing Bacteria");
-   });
-
-   //If you select Fish, set the data type as Creature Type 2
-   document.getElementById("type2").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[1]
-          console.log("Choosing Shark");
-   });
-
-   //If you select Plant, set the data type as Creature Type 3
-   document.getElementById("type3").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[2]
-          console.log("Choosing Plant");
-   });
-
-   //If you select Dino, set the data type as Creature Type 3
-   document.getElementById("type4").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[3]
-          console.log("Choosing Dino");
-   });
-    /* END EVENT HANDLER SECTION */  
+  function RemoveAnnouncements(index) {
+      var img = document.getElementById('announcement');
+      img.parentNode.removeChild(img);       
+  }  
+    /* END ANNOUNCEMENT SECTION */ 
     /* END ARCGIS JS API SECTION */
 
   /* START THE GAME */
@@ -679,24 +667,26 @@ setInterval(function(){
                     <input id="type4" class="" type="image" src="" alt="" />              
                 </div>
             </div>
-        <div id="gameOverDiv">
-            <div id="gameOverScreen1Bg"><p></p></div>
-            <div id="gameOverScreen1Text"><p>Game Over</p></div> 
+            <div id="announce">
+            </div>
+			
+			<div id="gameOverDiv">
+				<div id="gameOverScreen1Bg"><p></p></div>
+				<div id="gameOverScreen1Text"><p>Game Over</p></div> 
         
-            <div id="gameOverScreen2Text"><p>Did you miss it?</p></div>
+				<div id="gameOverScreen2Text"><p>Did you miss it?</p></div>
         
-            <div id="gameOverScreen31Text"><p>Homo Sapiens (humans) first appeared in the last</p></div>
-            <div id="gameOverScreen32Text"><p>0.005</p></div> 
-            <div id="gameOverScreen33Text"><p>seconds of this game.</p></div>
+				<div id="gameOverScreen31Text"><p>Homo Sapiens (humans) first appeared in the last</p></div>
+				<div id="gameOverScreen32Text"><p>0.005</p></div> 
+				<div id="gameOverScreen33Text"><p>seconds of this game.</p></div>
         
-            <div id="gameOverScreen51Text"><p>In that very short time, humanity has been directly causing the ongoing</p></div>        
-            <div id="gameOverScreen52Text"><p>Holocene Mass Extinction</p></div>  
+				<div id="gameOverScreen51Text"><p>In that very short time, humanity has been directly causing the ongoing</p></div>        
+				<div id="gameOverScreen52Text"><p>Holocene Mass Extinction</p></div>  
         
-            <div id="gameOverScreen6Text"><p>This sixth mass extinction marks a 100 to 1,000 fold increase in the background extinction rate of species. Up to XX % of species could be eliminated by 2100.</p></div>
+				<div id="gameOverScreen6Text"><p>This sixth mass extinction marks a 100 to 1,000 fold increase in the background extinction rate of species. Up to XX % of species could be eliminated by 2100.</p></div>
         
-            <div id="gameOverScreen7Text"><p>We can all help to preserve our planet. View these resources for more information.</p></div> 
-        </div>
-
+				<div id="gameOverScreen7Text"><p>We can all help to preserve our planet. View these resources for more information.</p></div> 
+			</div>
         </div>
     </div>
   </body>
