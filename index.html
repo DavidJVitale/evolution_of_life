@@ -16,7 +16,7 @@
       href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
     />
     <script src="https://js.arcgis.com/4.14/"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
 require(["esri/Map",
          "esri/views/MapView",
@@ -114,6 +114,40 @@ function(Map,
             Math.random() * selectedLifeForm.iconUrls.length)];
     }
 
+    var latestPlateImgLyr = null;
+    var checkIsLand = function(mapPoint){
+        return new Promise((resolve, reject) => {
+            var params = {f: "json",
+                          geometryType: "esriGeometryPoint",
+                          mosaicRule: JSON.stringify(latestPlateImgLyr.mosaicRule.toJSON()),
+                          geometry:  JSON.stringify({spatialReference: {wkid: 4326}, 
+                                                     x: mapPoint.x, y: mapPoint.y}),
+                          returnGeometry: "false",
+                          returnCatalogItems: "false",
+                          returnPixelValues: "true",
+                          pixelSize: JSON.stringify({"spatialReference":{"wkid":4326},"x":0.5357142857142857,"y":0.5357142857142857}),
+                          maxItemCount: "1"};
+            var queryString = $.param(params);
+            var myURL = "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer/identify?"+queryString;
+            fetch(myURL).then((data) => {
+                     data.json().then((json_) => {
+                        var rgbStr = json_.value;
+                        var rgbArr = rgbStr.split(",");
+                        var r = Number(rgbArr[0]);
+                        var g = Number(rgbArr[1]);
+                        var b = Number(rgbArr[2]);
+                        if(b < 150){
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    });
+                }).catch((err) => {
+                    reject(err);
+                });;
+            });
+    }
+
     //Nuts-and-Bolts for Internal Processing
     let internalcounter = 0;
     let creaturesToRemove = [];
@@ -156,9 +190,6 @@ function(Map,
                     }
                 }
                 setTimeSliderValue(historicTimeElapsedMillBCE);
-                // console.log(historicTimeElapsedMillBCE);
-                console.log("historicTimeElapsedMillBCE" + historicTimeElapsedMillBCE);
-                console.log("realTimeElapsedS" + realTimeElapsedS);
                 CheckExtinctions(historicTimeElapsedMillBCE);
 
             }, tickMs);}
@@ -191,6 +222,7 @@ function drawLayer(){
           opacity:1,
         });
         map.layers.add(newLayerP, 0);
+        latestPlateImgLyr = newLayerP;
         map.layers.add(newLayerHs, 1);
        
        // Do the cleanup of the old layers after the new ones have loaded
@@ -228,7 +260,6 @@ function startGame(){
     }, 2000);
 }
 function CheckExtinctions(sliderTime) {
-    console.log("Check Extinctions")
     for(i = 0; i < extinctions.length; i++) {
       if( sliderTime > extinctions[i].value && !extinctions[i].completed) {
           TriggerExtinction(extinctions[i].kill);
@@ -270,6 +301,9 @@ function TriggerExtinction(threshold) {
         var mapPoint = event.mapPoint;
 
         console.log("Point clicked    " + mapPoint.x + "," + mapPoint.y);
+        checkIsLand(mapPoint).then((isLand) => {
+            console.log("IsLand:" + isLand);
+        })
 
         var point = {
           type: "point", // autocasts as new Point()
