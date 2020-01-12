@@ -82,3 +82,346 @@ html, body
     height:149px;
     float:left;
 }
+
+#gameOverScreen1Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 800%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen1Bg p{
+    width:100%;
+    height:105%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    background-color: black;
+    top: -30px;
+    left: 0px;
+}
+
+#gameOverScreen2Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 600%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen31Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 300%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen32Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 80%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 1000%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen33Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 100%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 300%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen41Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 300%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+#gameOverScreen42Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 80%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 1000%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen43Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 100%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 300%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen51Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 300%;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-family: sans-serif;
+}
+
+#gameOverScreen52Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 90%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 600%;
+    font-weight: bold;
+    font-family: sans-serif;
+
+}
+
+#gameOverScreen6Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 300%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen7Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 400%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen8Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 400%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen9Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 300%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#gameOverScreen10Text p{
+    width:100%;
+    height:100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0;
+    z-index: 9;
+    color: white;
+    font: sans-serif;
+    vertical-align: middle;
+
+    top: 60%;
+    left: 60%;
+    width: 50%;
+    height: 50%;
+    margin: -15% 0 0 -25%;
+
+    font-size: 300%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
