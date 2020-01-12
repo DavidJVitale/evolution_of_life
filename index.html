@@ -233,8 +233,6 @@ function(Map,
 
 function drawLayer(){
    intervalUpdate200MilToPresent = setTimeout(function(){
-       console.log(currentLayerIndex);
-
         var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+(currentLayerIndex+1));
         var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+(currentLayerIndex+1));
         //i -= 1;
@@ -293,16 +291,26 @@ function startGame(){
           startSliderAndUpdatingLayer();          
     }, 2000);
 }
+
 function CheckExtinctions(sliderTime) {
     for(i = 0; i < extinctions.length; i++) {
       if( sliderTime > extinctions[i].value && !extinctions[i].completed) {
           TriggerExtinction(extinctions[i].kill);
           extinctions[i].completed = true;
 
+          //Set announcements
+          AddAnnouncements(i+1);
+          //Remove announcement after 10 seconds
+          setTimeout(function() {
+                        RemoveAnnouncements();          
+                  }, 5000);
+
           // Trigger population explosion after extinction after 3 seconds
           setTimeout(function() {
                       PopulationExplosionAfterExtinctions();          
                   }, 3000);
+
+          
           return;
       } 
     } 
@@ -330,7 +338,6 @@ function CreateNewPoint(x,y,imageurl) {
     return pointGraphic;
 }
     function tileRotation(){
-        console.log(Math.floor(historicTimeElapsedMillBCE));
         if(Math.floor(historicTimeElapsedMillBCE)===-3512 ){
             console.log("Adding bacteria tile");
             card = document.getElementById("type1")
@@ -530,39 +537,19 @@ function TriggerExtinction(threshold) {
     });
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
 
-    /* EVENT HANDLER SECTION */
+    /* ANNOUNCEMENT SECTION */
+  function AddAnnouncements(index) {  
+      var img = document.createElement('img');
+      img.setAttribute("id", "announcement");
+      img.src = "assets/announce/Announcement"+index+".png";
+      document.getElementById('announce').appendChild(img); 
+  }  
 
-   document.getElementById("type1").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[0]
-          console.log("Choosing Bacteria");
-   });
-
-   //If you select Fish, set the data type as Creature Type 2
-   document.getElementById("type2").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[1]
-          console.log("Choosing Shark");
-   });
-
-   //If you select Plant, set the data type as Creature Type 3
-   document.getElementById("type3").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[2]
-          console.log("Choosing Plant");
-   });
-
-   //If you select Dino, set the data type as Creature Type 3
-   document.getElementById("type4").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          selectedLifeForm = lifeForms[3]
-          console.log("Choosing Dino");
-   });
-    /* END EVENT HANDLER SECTION */  
+  function RemoveAnnouncements(index) {
+      var img = document.getElementById('announcement');
+      img.parentNode.removeChild(img);       
+  }  
+    /* END ANNOUNCEMENT SECTION */ 
     /* END ARCGIS JS API SECTION */
 
   /* START THE GAME */
@@ -591,6 +578,8 @@ setInterval(function(){
                     <input id="type3" class="" type="image" src="" alt="" />
                     <input id="type4" class="" type="image" src="" alt="" />              
                 </div>
+            </div>
+            <div id="announce">
             </div>
         </div>
     </div>
