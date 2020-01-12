@@ -75,20 +75,18 @@ function(Map,
                     }
                 }
                 setTimeSliderValue(historicTimeElapsedMillBCE);
-                // console.log(historicTimeElapsedMillBCE);
+                 console.log(historicTimeElapsedMillBCE);
 
             }, tickMs);}
     }
 
 function drawLayer(){
-//   var i = 42;
-//           var j = 0;
+
    intervalUpdate200MilToPresent = setTimeout(function(){
        console.log(currentLayerIndex);
 
         var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+(currentLayerIndex+1));
         var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+(currentLayerIndex+1));
-        //i -= 1;
         var newLayerHs = new ImageryLayer({
           id: "plate-tetonics-200-mil-hs-"+currentLayerIndex,
           url:
@@ -355,7 +353,8 @@ setInterval(function(){
     <div id="container">
         
         <div id="gameStatsDiv">
-            <div style="width:100%;height:10%;">  <input type="range" min="-4000" max="0" value="-4000" class="myslider"></div>
+            <div class="logo"> </div>
+            <div style="width:1344px;height:149px;float:right">  <input type="range" min="-4000" max="0" value="-4000" class="myslider"></div>
             <div id="mapViewDiv"></div>
             <div id="examplePopup">
                 <div id="animalsTab">

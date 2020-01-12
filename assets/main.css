@@ -9,8 +9,8 @@ html, body
 #mapViewDiv {
     padding: 0;
     margin: 0;
-    height: 100%;
-    width: 80%;
+    height: 754px;
+    width: 1344px;
     float: right;
 }
 #container {
@@ -30,10 +30,10 @@ html, body
 #examplePopup {
     padding: 0;
     margin: 0;
-    height: 100%;
-    width: 19.5%;
+    height: 754px;
+    width: 336px;
     float: left;
-    border-right: solid;
+/*    border-right: solid;*/
 
 }
 #animalsTab {
@@ -46,15 +46,23 @@ html, body
     width: 100%;
 }
 .animalCard {
+    border: 1px;
+    border-color: #CCCCCC;
     border-style: solid;
-    width: 100%;
-    margin: 10px;
+    width: 229px;
+    height: 152px;
+    margin-bottom: 30px;
+    margin-left: 54px;
+    margin-right: 54px;
+    box-shadow: 2px 2px 6px #CCCCCC;
 }
 
 .myslider {
     -webkit-appearance: none;
     background: #FCF3CF  ;
-    width: 50%;
+    width: 97%;
+    margin-top: 10px;
+    margin-right: 40px;
     height: 20px;
     opacity: 2;
    }
@@ -68,4 +76,9 @@ html, body
     background: #34495E  ;
     width: 5%;
     height: 20px;
+}
+.logo{
+    width:336px;
+    height:149px;
+    float:left;
 }
