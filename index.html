@@ -39,23 +39,103 @@ function(Map,
     var gameStarted = true;
     var realTimeElapsedS = 0;
     var historicTimeElapsedMillBCE = -4000;
-
-    //TODO: Make this timer start only on the start of the game
+    var currentLayerIndex = 41;
     const tickMs = 50;
-    if(gameStarted){
-        var globalTimerInterval = setInterval(function() {
-            realTimeElapsedS += (tickMs / 1000);
-            if(historicTimeElapsedMillBCE < -500){ 
-                // go from 4bil -> 500 mill in ~ 20 seconds
-                var magicLogMultipl = 0.995;
-                historicTimeElapsedMillBCE = historicTimeElapsedMillBCE *
-                    magicLogMultipl;}
-            else{
-                // go from 500 mill -> 0 in 40 seconds
-                historicTimeElapsedMillBCE += 0.63;
-            }
-            //console.log(historicTimeElapsedMillBCE);
-        }, tickMs);}
+    function startGame(){
+        gameStarted = true;
+        drawLayer()
+        setTimeout(function() {
+            startSliderAndUpdatingLayer();          
+        }, 2000);
+    }
+    function setTimeSliderValue(val){
+        document.querySelector('input[type=range]').value = val;
+    }
+    function startSliderAndUpdatingLayer(){
+        if(gameStarted) {
+            var twelver = 0;
+            var globalTimerInterval = setInterval(function() {
+                if(historicTimeElapsedMillBCE >=0){
+                    return;
+                }
+                realTimeElapsedS += (tickMs / 1000);
+                if(historicTimeElapsedMillBCE < -500){ 
+                    // go from 4bil -> 500 mill in ~ 20 seconds
+                    var magicLogMultipl = 0.995;
+                    historicTimeElapsedMillBCE = historicTimeElapsedMillBCE *
+                        magicLogMultipl;}
+                else{
+                    // go from 500 mill -> 0 in 40 seconds
+                    historicTimeElapsedMillBCE += 0.63;
+                    twelver += 1
+                    if(twelver%19 == 0){
+                        twelver = 0;
+                        currentLayerIndex -= 1;
+                        drawLayer();
+                    }
+                }
+                setTimeSliderValue(historicTimeElapsedMillBCE);
+                // console.log(historicTimeElapsedMillBCE);
+
+            }, tickMs);}
+    }
+
+function drawLayer(){
+//   var i = 42;
+//           var j = 0;
+   intervalUpdate200MilToPresent = setTimeout(function(){
+       console.log(currentLayerIndex);
+
+        var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+(currentLayerIndex+1));
+        var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+(currentLayerIndex+1));
+        //i -= 1;
+        var newLayerHs = new ImageryLayer({
+          id: "plate-tetonics-200-mil-hs-"+currentLayerIndex,
+          url:
+            "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
+          mosaicRule: new MosaicRule({
+              lockRasterIds: [currentLayerIndex,],
+              method: "lock-raster",
+              ascending: false}),
+         opacity:0.1
+        });
+        var newLayerP = new ImageryLayer({
+          id: "plate-tetonics-200-mil-"+currentLayerIndex,
+          url:
+            "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
+          mosaicRule: new MosaicRule({
+              lockRasterIds: [currentLayerIndex,],
+              method: "lock-raster",
+              ascending: false}),
+          opacity:1,
+        });
+        map.layers.add(newLayerP, 0);
+        map.layers.add(newLayerHs, 1);
+       
+       // Do the cleanup of the old layers after the new ones have loaded
+        newLayerHs.load().then((_) => {
+            setTimeout(function(){
+                map.remove(oldLayerHs);
+            }, 1000);
+        }).catch((err) => {
+            console.log("Error on loading newLayerHs");
+            console.log(err);
+        });
+        
+        newLayerP.load().then((_) => {
+            setTimeout(function(){
+                map.remove(oldLayerP);
+                
+            }, 1000);
+        }).catch((err) => {
+            console.log("Error on loading newLayerP");
+            console.log(err);
+        });
+
+
+    }, 1);
+}
+
 
     var map = new Map({
           basemap: "null",
@@ -88,7 +168,25 @@ function(Map,
                        isOcean: false,
                        iconUrls: ["assets/icons/skull.png"],
                        },
-                    ]
+                    ];
+
+    var extinctions = [{ name: "Ordovician",
+                         value: 445,
+                       },
+                       { name: "Devonian",
+                         value: 370,
+                       },
+                       { name: "Permian",
+                         value: 250,
+                       },
+                       { name: "Triassic",
+                         value: 200,
+                       },
+                       { name: "Cretaceous",
+                         value: 65,
+                       },
+                    ];
+
     var selectedLifeForm = lifeForms[0];
     var getSelectedLifeFormIconUrl = function(){
         return selectedLifeForm.iconUrls[Math.floor(
@@ -113,74 +211,11 @@ function(Map,
     /* ARCGIS JS API SECTION*/
     /* PLATE TETONICS SECTION */
 
-   var i = 42;
-   var j = 0;
-   intervalUpdate200MilToPresent = setInterval(function(){
-
-        var oldLayerHs = map.findLayerById("plate-tetonics-200-mil-hs-"+i);
-        var oldLayerP = map.findLayerById("plate-tetonics-200-mil-"+i);
-        i -= 1;
-        var newLayerHs = new ImageryLayer({
-          id: "plate-tetonics-200-mil-hs-"+i,
-          url:
-            "https://apl.esri.com/apl3/rest/services/Paleo_200_2_now_hs/ImageServer",
-          mosaicRule: new MosaicRule({
-              lockRasterIds: [i,],
-              method: "lock-raster",
-              ascending: false}),
-         opacity:0.1
-        });
-        var newLayerP = new ImageryLayer({
-          id: "plate-tetonics-200-mil-"+i,
-          url:
-            "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer",
-          mosaicRule: new MosaicRule({
-              lockRasterIds: [i,],
-              method: "lock-raster",
-              ascending: false}),
-          opacity:1,
-        });
-
-        //map.layers.addMany(newLayerHs, newLayerP);
-        map.layers.add(newLayerP, 0);
-        map.layers.add(newLayerHs, 1);
-       
-       //console.log(j);
-        j = j+5
-       document.querySelector('input[type=range]').value = j;
-       
-       // Do the cleanup of the old layers after the new ones have loaded
-        newLayerHs.load().then((_) => {
-            setTimeout(function(){
-                map.remove(oldLayerHs);
-            }, 1000);
-        }).catch((err) => {
-            console.log("Error on loading newLayerHs");
-            console.log(err);
-        });
-        
-        newLayerP.load().then((_) => {
-            setTimeout(function(){
-                map.remove(oldLayerP);
-                
-            }, 1000);
-        }).catch((err) => {
-            console.log("Error on loading newLayerP");
-            console.log(err);
-        });
-       
-       // Stop the interval when it is done
-        if(i<0){
-            console.log("Clearing 200Mil to present interval");
-            clearInterval(intervalUpdate200MilToPresent);
-        }
-
-
-    }, 1000);
 
     /* END PLATE TETONICS SECTION*/
     /* LAND/SEA GRAPHICS LAYER SECTION*/
 
+    startGame();
     //Add graphics code here
     let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
 
@@ -250,8 +285,6 @@ function(Map,
                     }
                     console.log("Deleting !!");
                   }, 3000);
-
-          
     });
 
 
@@ -322,14 +355,14 @@ setInterval(function(){
     <div id="container">
         
         <div id="gameStatsDiv">
-            <div style="width:100%;height:10%;">  <input type="range" min="1" max="100" value="1" class="myslider"></div>
+            <div style="width:100%;height:10%;">  <input type="range" min="-4000" max="0" value="-4000" class="myslider"></div>
             <div id="mapViewDiv"></div>
             <div id="examplePopup">
                 <div id="animalsTab">
-                    <input id="removeBtn" class="animalCardDiv animalCard" type="image" src="Jellyfish.png" alt="Jellyfish"/>
-                    <input id="bacteria" class="animalCardDiv animalCard" type="image" src="Bacteria.png" alt="Bacteria" />
-                    <input id="Stegosaurus1" class="animalCardDiv animalCard" type="image" src="Stegosaurus.png" alt="Stegosaurus" />
-                    <input id="Stegosaurus2" class="animalCardDiv animalCard" type="image" src="Stegosaurus.png" alt="Stegosaurus" />
+                    <input id="removeBtn" class="animalCardDiv animalCard" type="image" src="assets/tiles/Jellyfish.png" alt="Jellyfish"/>
+                    <input id="bacteria" class="animalCardDiv animalCard" type="image" src="assets/tiles/Bacteria.png" alt="Bacteria" />
+                    <input id="Stegosaurus1" class="animalCardDiv animalCard" type="image" src="assets/tiles/Stegosaurus.png" alt="Stegosaurus" />
+                    <input id="Stegosaurus2" class="animalCardDiv animalCard" type="image" src="assets/tiles/Shark.png" alt="Stegosaurus" />
                 </div>
             </div>
         </div>
