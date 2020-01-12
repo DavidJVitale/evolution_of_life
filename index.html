@@ -53,6 +53,58 @@ function(Map,
           center: [0,0] // longitude, latitude
         });    
 
+    view.when(disableZooming);
+
+    /**
+    * Disables all zoom gestures on the given view instance.
+    *
+    * @param {esri/views/MapView} view - The MapView instance on which to
+    *                                  disable zooming gestures.
+    */
+    function disableZooming(view) {
+    view.popup.dockEnabled = true;
+
+    // Removes the zoom action on the popup
+    view.popup.actions = [];
+
+    // stops propagation of default behavior when an event fires
+    function stopEvtPropagation(event) {
+        event.stopPropagation();
+    }
+
+    // exlude the zoom widget from the default UI
+    view.ui.components = ["attribution"];
+
+    // disable mouse wheel scroll zooming on the view
+    view.on("mouse-wheel", stopEvtPropagation);
+
+    // disable zooming via double-click on the view
+    view.on("double-click", stopEvtPropagation);
+
+    // disable zooming out via double-click + Control on the view
+    view.on("double-click", ["Control"], stopEvtPropagation);
+
+    // disables pinch-zoom and panning on the view
+    view.on("drag", stopEvtPropagation);
+
+    // disable the view's zoom box to prevent the Shift + drag
+    // and Shift + Control + drag zoom gestures.
+    view.on("drag", ["Shift"], stopEvtPropagation);
+    view.on("drag", ["Shift", "Control"], stopEvtPropagation);
+
+    // prevents zooming with the + and - keys
+    view.on("key-down", function(event) {
+        var prohibitedKeys = ["+", "-", "Shift", "_", "="];
+        var keyPressed = event.key;
+        if (prohibitedKeys.indexOf(keyPressed) !== -1) {
+        event.stopPropagation();
+        }
+    });
+
+    return view;
+    }
+
+
     let graphicsLayer = new GraphicsLayer({"id":"land-graphics-layer"});
     map.layers.add(graphicsLayer,30);
     
@@ -184,6 +236,38 @@ function(Map,
             });
     }
  
+    /* GAME OVER SECTION */
+
+    function GameOver(){
+        console.log("Game Over!");
+        $('#gameOverDiv').show();
+
+        //GAME OVER1 fade in and out
+        $("#gameOverScreen1Bg p").delay(0).animate({"opacity": "0.5"}, 2000);
+        $("#gameOverScreen1Text p").delay(0).animate({"opacity": "0.85"}, 2000).delay(2000).animate({"opacity": "0"}, 1000);
+
+        // (@5 seconds) Did you miss it?
+        $("#gameOverScreen2Text p").delay(5000).animate({"opacity": "0.85"}, 1000).delay(3000).animate({"opacity": "0"}, 1000);
+
+        //(@10 seconds) Homo Sapiens
+        $("#gameOverScreen31Text p").delay(10000).animate({"opacity": "0.85"}, 1000).delay(8000).animate({"opacity": "0"}, 1000);
+        $("#gameOverScreen32Text p").delay(10000).animate({"opacity": "0.85"}, 1000).delay(8000).animate({"opacity": "0"}, 1000);
+        $("#gameOverScreen33Text p").delay(10000).animate({"opacity": "0.85"}, 1000).delay(8000).animate({"opacity": "0"}, 1000);
+
+        //(@30 seconds) in that time
+        $("#gameOverScreen51Text p").delay(20000).animate({"opacity": "0.85"}, 1000).delay(8000).animate({"opacity": "0"}, 1000);
+        $("#gameOverScreen52Text p").delay(20000).animate({"opacity": "0.85"}, 1000).delay(8000).animate({"opacity": "0"}, 1000);
+
+        //(@40 seconds) in that time
+        $("#gameOverScreen6Text p").delay(30000).animate({"opacity": "0.85"}, 1000).delay(8000).animate({"opacity": "0"}, 1000);
+
+        //(@50 seconds) in that time
+        $("#gameOverScreen7Text p").delay(40000).animate({"opacity": "0.85"}, 1000)
+    }
+    $('#gameOverDiv').hide();
+
+    /* END GAME OVER SECTION */
+
 
     /* END SHARED GLOBALS SECTION*/
 
@@ -203,6 +287,8 @@ function(Map,
             var twelver = 0;
             var globalTimerInterval = setInterval(function() {
                 if(historicTimeElapsedMillBCE >=0){
+                    clearInterval(globalTimerInterval);
+                    GameOver();                    
                     return;
                 }
 
@@ -591,6 +677,24 @@ setInterval(function(){
                     <input id="type4" class="" type="image" src="" alt="" />              
                 </div>
             </div>
+        <div id="gameOverDiv">
+            <div id="gameOverScreen1Bg"><p></p></div>
+            <div id="gameOverScreen1Text"><p>Game Over</p></div> 
+        
+            <div id="gameOverScreen2Text"><p>Did you miss it?</p></div>
+        
+            <div id="gameOverScreen31Text"><p>Homo Sapiens (humans) first appeared in the last</p></div>
+            <div id="gameOverScreen32Text"><p>0.005</p></div> 
+            <div id="gameOverScreen33Text"><p>seconds of this game.</p></div>
+        
+            <div id="gameOverScreen51Text"><p>In that very short time, humanity has been directly causing the ongoing</p></div>        
+            <div id="gameOverScreen52Text"><p>Holocene Mass Extinction</p></div>  
+        
+            <div id="gameOverScreen6Text"><p>This sixth mass extinction marks a 100 to 1,000 fold increase in the background extinction rate of species. Up to XX % of species could be eliminated by 2100.</p></div>
+        
+            <div id="gameOverScreen7Text"><p>We can all help to preserve our planet. View these resources for more information.</p></div> 
+        </div>
+
         </div>
     </div>
   </body>
