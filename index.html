@@ -198,8 +198,6 @@ function(Map,
                 }
                 setTimeSliderValue(historicTimeElapsedMillBCE);
                 // console.log(historicTimeElapsedMillBCE);
-                console.log("historicTimeElapsedMillBCE" + historicTimeElapsedMillBCE);
-                console.log("realTimeElapsedS" + realTimeElapsedS);
                 CheckExtinctions(historicTimeElapsedMillBCE);
 
             }, tickMs);}
@@ -255,9 +253,6 @@ function drawLayer(){
             console.log("Error on loading newLayerP");
             console.log(err);
         });
-
-        console.log("historicTimeElapsedMillBCE" + historicTimeElapsedMillBCE);
-        console.log("realTimeElapsedS" + realTimeElapsedS);
     }, 1);
 }
     /* END PLATE TETONICS SECTION*/
@@ -271,14 +266,62 @@ function startGame(){
     }, 2000);
 }
 function CheckExtinctions(sliderTime) {
-    console.log("Check Extinctions")
     for(i = 0; i < extinctions.length; i++) {
       if( sliderTime > extinctions[i].value && !extinctions[i].completed) {
           TriggerExtinction(extinctions[i].kill);
           extinctions[i].completed = true;
+
+          // Trigger population explosion after extinction after 3 seconds
+          setTimeout(function() {
+                      PopulationExplosionAfterExtinctions();          
+                  }, 3000);
           return;
       } 
     } 
+}
+
+function CreateNewPoint(x,y,imageurl) {
+    var topPoint = {
+                      type: "point", // autocasts as new Point()
+                      x: x,
+                      y: y,
+                   };
+
+    var pictureSymbol = {
+                          type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                          url: imageurl,
+                          width: "64px",
+                          height: "64px"
+                        };
+
+    var pointGraphic = new Graphic({
+          geometry: topPoint,
+          symbol: pictureSymbol
+        });
+
+    return pointGraphic;
+}
+
+function PopulationExplosionAfterExtinctions() {
+    console.log("Population Explosion After Extinctions")
+    var tempCreatures = [];
+    for( i=0; i <createdLandLife.length; i++) {
+        var tempCreature = createdLandLife[i];
+
+        var topCreature = CreateNewPoint(tempCreature.geometry.x,
+                                         tempCreature.geometry.y - 5,
+                                         tempCreature.symbol.url);
+
+        map.findLayerById("land-graphics-layer").add(topCreature);
+        /*map.findLayerById("land-graphics-layer").add(bottomCreature);*/
+        
+        tempCreatures.push(topCreature);
+        /*tempCreatures.push(bottomCreature);*/
+    } 
+
+    for(j=0;j < tempCreatures.length; j++) {
+      createdLandLife.push(tempCreatures[j]);
+    }
 }
 
 function TriggerExtinction(threshold) {
@@ -314,33 +357,7 @@ function TriggerExtinction(threshold) {
 
         console.log("Point clicked    " + mapPoint.x + "," + mapPoint.y);
 
-        var point = {
-          type: "point", // autocasts as new Point()
-          x: mapPoint.x,
-          y: mapPoint.y,
-        };
-
-        var pictureSymbol = {
-                  type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-                  url: selectedLifeForm["iconUrls"][0],
-                  width: "64px",
-                  height: "64px"
-        };
-
-        markerSymbol = {
-          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-          color: [226, 119, 40],
-          outline: {
-            // autocasts as new SimpleLineSymbol()
-            color: [1, 1, 1],
-            width: 10
-          }
-        };
-
-        var pointGraphic = new Graphic({
-          geometry: point,
-          symbol: pictureSymbol
-        });
+        var pointGraphic = CreateNewPoint(mapPoint.x,mapPoint.y,selectedLifeForm["iconUrls"][0]);
 
         map.findLayerById("land-graphics-layer").add(pointGraphic);
         
@@ -359,34 +376,6 @@ function TriggerExtinction(threshold) {
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
 
     /* EVENT HANDLER SECTION */
-   /* 
-   document.getElementById("removeBtn").addEventListener("click", function(){
-          var mapPoint = event.mapPoint;
-
-          console.log("Removing Random Creatures");
-
-          //Get random number of creatures to kill
-          max = Math.floor(createdLandLife.length);
-          randomNumber = Math.floor(Math.random() * (max + 1));
-
-          // This next part marks the random number of creature to be removed
-          // Initially the creatures icon is Set to Skull'n'Bones
-          for(internalcounter = 0; internalcounter < randomNumber; internalcounter++) {
-              var tempGraphic = createdLandLife.pop();
-              creaturesToRemove.push(tempGraphic);
-              tempGraphic.symbol.url = "assets/icons/skull.png";
-              map.findLayerById("land-graphics-layer").remove(tempGraphic);
-              map.findLayerById("land-graphics-layer").add(tempGraphic);
-          }
-
-          //After 3 Seconds remove the creatures marked for deletion
-          setTimeout(function() { 
-                    for(; internalcounter >=0 ; internalcounter--) {
-                          map.findLayerById("land-graphics-layer").remove(creaturesToRemove.pop());
-                    }
-                    console.log("Deleting !!");
-                  }, 3000);
-    }); */
 
    document.getElementById("type1").addEventListener("click", function(){
           var mapPoint = event.mapPoint;
