@@ -16,7 +16,7 @@
       href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
     />
     <script src="https://js.arcgis.com/4.14/"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
 require(["esri/Map",
          "esri/views/MapView",
@@ -122,6 +122,40 @@ function(Map,
     //Nuts-and-Bolts for Internal Processing
     let internalcounter = 0;
     let creaturesToRemove = [];
+    var latestPlateImgLyr = null;
+    var checkIsLand = function(mapPoint){
+        return new Promise((resolve, reject) => {
+            var params = {f: "json",
+                          geometryType: "esriGeometryPoint",
+                          mosaicRule: JSON.stringify(latestPlateImgLyr.mosaicRule.toJSON()),
+                          geometry:  JSON.stringify({spatialReference: {wkid: 4326},
+                                                     x: mapPoint.x, y: mapPoint.y}),
+                          returnGeometry: "false",
+                          returnCatalogItems: "false",
+                          returnPixelValues: "true",
+                          pixelSize: JSON.stringify({"spatialReference":{"wkid":4326},"x":0.5357142857142857,"y":0.5357142857142857}),
+                          maxItemCount: "1"};
+            var queryString = $.param(params);
+            var myURL = "https://apl.esri.com/apl3/rest/services/P_200_0/ImageServer/identify?"+queryString;
+            fetch(myURL).then((data) => {
+                     data.json().then((json_) => {
+                        var rgbStr = json_.value;
+                        var rgbArr = rgbStr.split(",");
+                        var r = Number(rgbArr[0]);
+                        var g = Number(rgbArr[1]);
+                        var b = Number(rgbArr[2]);
+                        if(b < 150){
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    });
+                }).catch((err) => {
+                    reject(err);
+                });;
+            });
+    }
+ 
 
     /* END SHARED GLOBALS SECTION*/
 
@@ -199,6 +233,7 @@ function drawLayer(){
           opacity:1,
         });
         map.layers.add(newLayerP, 0);
+        latestPlateImgLyr = newLayerP;
         map.layers.add(newLayerHs, 1);
        
        // Do the cleanup of the old layers after the new ones have loaded
@@ -307,10 +342,19 @@ function TriggerExtinction(threshold) {
           symbol: pictureSymbol
         });
 
-        //Add to Land creature list
-        createdLandLife.push(pointGraphic);
-
         map.findLayerById("land-graphics-layer").add(pointGraphic);
+        
+        checkIsLand(mapPoint).then((isLand) => {
+            console.log(isLand);
+            console.log(selectedLifeForm);
+            var isOcean = !isLand;
+            if(selectedLifeForm.isLand !== isLand || selectedLifeForm.isOcean !== isOcean){
+                map.findLayerById("land-graphics-layer").remove(pointGraphic);
+            }
+            else{
+                createdLandLife.push(pointGraphic);
+            }
+        }) 
     });
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
 
