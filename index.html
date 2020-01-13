@@ -407,7 +407,7 @@ function CheckExtinctions(sliderTime) {
           extinctions[i].completed = true;
 
           //Set announcements
-          AddAnnouncements(i+1);
+          AddAnnouncements(extinctions.length - i);
           //Remove announcement after 10 seconds
           setTimeout(function() {
                         RemoveAnnouncements();          
@@ -607,6 +607,37 @@ function TriggerExtinction(threshold) {
             console.log("Deleting !!");
     }, 3000);
 }
+
+function TriggerRandomExtinction(threshold) {
+  
+    console.log("Removing " + threshold + "% of Creatures");
+
+    var creaturesToKill = Math.round(Math.floor(createdLandLife.length) * threshold / 100);
+
+    // This next part marks the number of creature to be removed
+    // Initially the creatures icon is Set to Skull'n'Bones
+    internalcounter = 0;
+    var initialLength = createdLandLife.length;
+    for(i = 0 ;i < creaturesToKill; i++) {
+        var randomIndex = Math.round(Math.floor(Math.random() * (initialLength -i)));
+        var tempGraphic = createdLandLife[randomIndex];
+        createdLandLife.splice(randomIndex,1);
+        creaturesToRemove.push(tempGraphic);
+        tempGraphic.symbol.url = "assets/icons/skull.png";
+        map.findLayerById("land-graphics-layer").remove(tempGraphic);
+        map.findLayerById("land-graphics-layer").add(tempGraphic);
+        internalcounter = internalcounter + 1;
+    }
+
+    //After 3 Seconds remove the creatures marked for deletion
+    setTimeout(function() { 
+            for(; internalcounter >=0 ; internalcounter--) {
+                  map.findLayerById("land-graphics-layer").remove(creaturesToRemove.pop());
+            }
+            console.log("Deleting !!");
+    }, 3000);
+}
+
     /* END GAME ENGINE */
 
     /* LAND/SEA GRAPHICS LAYER SECTION*/      
@@ -682,7 +713,7 @@ function playAudio() {
             <div id="startText2"><p>The goal of the game is to populate the Earth with life as we travel through its 4 billion year history. Click anywhere on the map to create new life. Some life can only be spawned in the ocean, and some only on land.</p></div>
             <div id="startText3"><p>Select new life forms as they evolve here</p></div>
             <div id="startText4"><p>This timer shows where you are in Earth's history, from 4 billion years ago to present. You have 60 seconds in this game.</p></div>
-            <button class="playButton" id="playButton1" type="button">Play</button> 
+            <button class="playButton" id="playButton1" type="button">Start</button> 
             <button class="playButton" id="playButton2" type="button">Play</button> 
         </div>
         
