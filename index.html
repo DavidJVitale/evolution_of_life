@@ -263,6 +263,7 @@ function(Map,
 
         //(@50 seconds) in that time
         $("#gameOverScreen7Text p").delay(40000).animate({"opacity": "0.85"}, 1000)
+        $("#gameOverScreen72Text p").delay(40000).animate({"opacity": "0.85"}, 1000)
     }
     $('#gameOverDiv').hide();
 
@@ -395,6 +396,7 @@ function drawLayer(){
                 $('#startText3').hide();
                 $('#startText4').hide();
                 $('#startTextBg2').hide();
+                GameOver();
                 startSliderAndUpdatingLayer();  
           }       
         }
@@ -739,16 +741,18 @@ function playAudio() {
         
 				<div id="gameOverScreen2Text"><p>Did you miss it?</p></div>
         
-				<div id="gameOverScreen31Text"><p>Homo Sapiens (humans) first appeared in the last</p></div>
+				<div id="gameOverScreen31Text"><p>Homo Sapiens (humans) evolved in the last</p></div>
 				<div id="gameOverScreen32Text"><p>0.005</p></div> 
 				<div id="gameOverScreen33Text"><p>seconds of this game.</p></div>
         
 				<div id="gameOverScreen51Text"><p>In that very short time, humanity has been directly causing the ongoing</p></div>        
 				<div id="gameOverScreen52Text"><p>Holocene Mass Extinction</p></div>  
         
-				<div id="gameOverScreen6Text"><p>This sixth mass extinction marks a 100 to 1,000 fold increase in the background extinction rate of species. Up to XX % of species could be eliminated by 2100.</p></div>
+				<div id="gameOverScreen6Text"><p>In this sixth mass extinction, species are going extinct 100 to 1,000 times faster than normal.</p></div>
         
-				<div id="gameOverScreen7Text"><p>We can all help to preserve our planet. View these resources for more information.</p></div> 
+                <div id="gameOverScreen7Text"><p>We can all help to preserve our planet. View these resources for more information.</p></div>
+                <div id="gameOverScreen72Text"><p><a href="https://www.theguardian.com/environment/2017/jul/10/earths-sixth-mass-extinction-event-already-underway-scientists-warn">https://www.theguardian.com/environment/2017/jul/10/earths-sixth-mass-extinction-event-already-underway-scientists-warn</a>
+                    <br><br><a href="https://blog.nationalgeographic.org/2015/06/23/can-we-stop-the-sixth-mass-extinction/">https://blog.nationalgeographic.org/2015/06/23/can-we-stop-the-sixth-mass-extinction/</a></p></div>
 			</div>
         </div>
     </div>
