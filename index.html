@@ -370,26 +370,26 @@ function drawLayer(){
     /* END PLATE TETONICS SECTION*/
 
     /* GAME ENGINE */
-function startGame(){
-    gameStarted = true;
-    drawLayer()
-    $('#playButton2').hide();
-    $('#startTextBg1').show();
-    $('#startText2').hide();
-    $('#startText3').hide();
-    $('#startText4').hide();
-    var playButton1 = document.getElementById("playButton1");
-    playButton1.onclick = function() {
-          $('#playButton1').hide();
-          $('#playButton2').show();
-          $('#startTextBg1').hide();
-          $('#startTextBg2').show();
-          $('#startText1').hide();
-          $('#startText2').show();
-          $('#startText3').show();
-          $('#startText4').show();
-          var playButton2 = document.getElementById("playButton2");
-          playButton2.onclick = function() {
+    function startGame(){
+        gameStarted = true;
+        drawLayer()
+        $('#playButton2').hide();
+        $('#startTextBg1').show();
+        $('#startText2').hide();
+        $('#startText3').hide();
+        $('#startText4').hide();
+        var playButton1 = document.getElementById("playButton1");
+        playButton1.onclick = function() {
+            $('#playButton1').hide();
+            $('#playButton2').show();
+            $('#startTextBg1').hide();
+            $('#startTextBg2').show();
+            $('#startText1').hide();
+            $('#startText2').show();
+            $('#startText3').show();
+            $('#startText4').show();
+            var playButton2 = document.getElementById("playButton2");
+            playButton2.onclick = function() {
                 $('#playButton2').hide();
                 $('#startText2').hide();
                 $('#startText3').hide();
@@ -397,8 +397,8 @@ function startGame(){
                 $('#startTextBg2').hide();
                 startSliderAndUpdatingLayer();  
           }       
+        }
     }
-}
 
 function CheckExtinctions(sliderTime) {
     for(i = 0; i < extinctions.length; i++) {
@@ -686,7 +686,7 @@ setInterval(function(){
             <button class="playButton" id="playButton1" type="button">Play</button> 
             <button class="playButton" id="playButton2" type="button">Play</button> 
         </div>
-
+        
         <div id="gameStatsDiv">
             <div class="logo"><img width="296px" height="149px" src="assets/Logo.png"/></div>
             <img id="sliderImgOverlay" src="assets/Slider2.png"/>
@@ -700,12 +700,13 @@ setInterval(function(){
                     <input id="type4" class="" type="image" src="" alt="" />              
                 </div>
             </div>
-           <div id="announce" class="center">
+            <div id="announce" class="center">
+            </div>
 			
 			<div id="gameOverDiv">
 				<div id="gameOverScreen1Bg"><p></p></div>
 				<div id="gameOverScreen1Text"><p>Game Over</p></div> 
-       
+        
 				<div id="gameOverScreen2Text"><p>Did you miss it?</p></div>
         
 				<div id="gameOverScreen31Text"><p>Homo Sapiens (humans) first appeared in the last</p></div>
