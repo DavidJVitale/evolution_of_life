@@ -447,6 +447,16 @@ function CreateNewPoint(x,y,imageurl) {
 
     return pointGraphic;
 }
+
+    function makeAllAnimalDivs50Opacity(){
+        console.log("50% opacity");
+        document.getElementById("type1").setAttribute("style", "opacity: 0.5");
+        document.getElementById("type2").setAttribute("style", "opacity: 0.5");
+        document.getElementById("type3").setAttribute("style", "opacity: 0.5");
+        document.getElementById("type4").setAttribute("style", "opacity: 0.5");
+    }
+    makeAllAnimalDivs50Opacity();
+
     function tileRotation(){
         if(Math.floor(historicTimeElapsedMillBCE)===-3512 ){
             console.log("Adding bacteria tile");
@@ -457,6 +467,8 @@ function CreateNewPoint(x,y,imageurl) {
               document.getElementById("type1").setAttribute("border","solid");    
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[0];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type1").setAttribute("style", "opacity: 1");
             });
 
         }
@@ -468,6 +480,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[1];   
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type2").setAttribute("style", "opacity: 1");
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-805){
@@ -478,6 +492,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[2];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type3").setAttribute("style", "opacity: 1");             
             });
 
         }
@@ -489,6 +505,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type4").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[3];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type4").setAttribute("style", "opacity: 1");
             });
 
         }
@@ -500,6 +518,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type1").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[4];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type1").setAttribute("style", "opacity: 1");
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-350){
@@ -510,6 +530,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[5];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type2").setAttribute("style", "opacity: 1");
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-350){
@@ -520,6 +542,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[6];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type3").setAttribute("style", "opacity: 1");
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-225){
@@ -530,6 +554,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type4").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[7];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type4").setAttribute("style", "opacity: 1");
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-225){
@@ -540,6 +566,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type1").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[8];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type1").setAttribute("style", "opacity: 1");
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-66){
@@ -550,6 +578,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[9];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type2").setAttribute("style", "opacity: 1");
             });
         }
         if(Math.floor(historicTimeElapsedMillBCE)===-55){
@@ -560,6 +590,8 @@ function CreateNewPoint(x,y,imageurl) {
             document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[10];
+              makeAllAnimalDivs50Opacity();
+              document.getElementById("type3").setAttribute("style", "opacity: 1");
             });
         }
     }
