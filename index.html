@@ -428,9 +428,9 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding bacteria tile");
             card = document.getElementById("type1")
             card.setAttribute("src","assets/tiles/Bacteria.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className += "animalDiv animalCard"; 
             document.getElementById("type1").addEventListener("click", function(){
+              document.getElementById("type1").setAttribute("border","solid");    
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[0];
             });
@@ -440,8 +440,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Multicell tile");
             card = document.getElementById("type2")
             card.setAttribute("src","assets/tiles/Fungi.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[1];   
@@ -451,8 +450,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Algae tile");
             card = document.getElementById("type3")
             card.setAttribute("src","assets/tiles/Algae.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[2];
@@ -463,8 +461,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding JellyFish tile");
             card = document.getElementById("type4")
             card.setAttribute("src","assets/tiles/Jellyfish.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type4").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[3];
@@ -475,8 +472,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Insect tile");
             card = document.getElementById("type1")
             card.setAttribute("src","assets/tiles/Beetle.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type1").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[4];
@@ -486,8 +482,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Fish tile");
             card = document.getElementById("type2")
             card.setAttribute("src","assets/tiles/Shark.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[5];
@@ -497,8 +492,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Trees tile");
             card = document.getElementById("type3")
             card.setAttribute("src","assets/tiles/Fern.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard";  
             document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[6];
@@ -508,8 +502,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Dino tile");
             card = document.getElementById("type4")
             card.setAttribute("src","assets/tiles/Stegosaurus.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard";
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type4").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[7];
@@ -519,8 +512,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Pig tile");
             card = document.getElementById("type1")
             card.setAttribute("src","assets/tiles/Pig.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type1").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[8];
@@ -530,8 +522,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Birds tile");
             card = document.getElementById("type2")
             card.setAttribute("src","assets/tiles/Parrot.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type2").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[9];
@@ -541,8 +532,7 @@ function CreateNewPoint(x,y,imageurl) {
             console.log("Adding Primates tile");
             card = document.getElementById("type3")
             card.setAttribute("src","assets/tiles/Primate.png")
-            card.className += "animalDiv "; 
-            card.className += "animalCard"; 
+            card.className = "animalDiv animalCard"; 
             document.getElementById("type3").addEventListener("click", function(){
               var mapPoint = event.mapPoint;
               selectedLifeForm = lifeForms[10];
@@ -575,7 +565,6 @@ function PopulationExplosionAfterExtinctions() {
 function TriggerExtinction(threshold) {
   
     console.log("Removing " + threshold + "% of Creatures");
-
     var creaturesToKill = Math.floor(createdLandLife.length) * threshold / 100;
 
     // This next part marks the number of creature to be removed
@@ -624,7 +613,8 @@ function TriggerExtinction(threshold) {
     /* END LAND/SEA GRAPHICS LAYER SECTION*/
 
     /* ANNOUNCEMENT SECTION */
-  function AddAnnouncements(index) {  
+  function AddAnnouncements(index) {
+      playAudio();
       var img = document.createElement('img');
       img.setAttribute("id", "announcement");
       img.src = "assets/announce/Announcement"+index+".png";
@@ -645,15 +635,23 @@ function TriggerExtinction(threshold) {
 /*END ALL USER CODE*/
 var i = 0;
 setInterval(function(){
-}, 1000);    
-
+}, 1000);  
+        
+function playAudio() { 
+    var x = document.getElementById("myAudio"); 
+    x.play(); 
+} 
 </script>
 
   </head>
 
   <body>
-    <div id="container">
-        
+      <audio id="myAudio">
+        <source src="assets/warning.ogg" type="audio/ogg">
+      Your browser does not support the audio element.
+      </audio>
+      
+    <div id="container">    
         <div id="gameStatsDiv">
             <div class="logo"><img width="296px" height="149px" src="assets/Logo.png"/></div>
             <img id="sliderImgOverlay" src="assets/Slider2.png"/>
@@ -661,7 +659,7 @@ setInterval(function(){
             <div id="mapViewDiv"></div>
             <div id="examplePopup">
                 <div id="animalsTab">
-                    <input id="type1" class="" type="image" src="" alt=""/>
+                    <input id="type1" class="ButtonState " type="image" src="" alt=""/>
                     <input id="type2" class="" type="image" src="" alt="" />
                     <input id="type3" class="" type="image" src="" alt="" />
                     <input id="type4" class="" type="image" src="" alt="" />              
