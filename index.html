@@ -370,13 +370,35 @@ function drawLayer(){
     /* END PLATE TETONICS SECTION*/
 
     /* GAME ENGINE */
-function startGame(){
-    gameStarted = true;
-    drawLayer()
-    setTimeout(function() {
-          startSliderAndUpdatingLayer();          
-    }, 2000);
-}
+    function startGame(){
+        gameStarted = true;
+        drawLayer()
+        $('#playButton2').hide();
+        $('#startTextBg1').show();
+        $('#startText2').hide();
+        $('#startText3').hide();
+        $('#startText4').hide();
+        var playButton1 = document.getElementById("playButton1");
+        playButton1.onclick = function() {
+            $('#playButton1').hide();
+            $('#playButton2').show();
+            $('#startTextBg1').hide();
+            $('#startTextBg2').show();
+            $('#startText1').hide();
+            $('#startText2').show();
+            $('#startText3').show();
+            $('#startText4').show();
+            var playButton2 = document.getElementById("playButton2");
+            playButton2.onclick = function() {
+                $('#playButton2').hide();
+                $('#startText2').hide();
+                $('#startText3').hide();
+                $('#startText4').hide();
+                $('#startTextBg2').hide();
+                startSliderAndUpdatingLayer();  
+          }       
+        }
+    }
 
 function CheckExtinctions(sliderTime) {
     for(i = 0; i < extinctions.length; i++) {
@@ -652,6 +674,18 @@ function playAudio() {
       </audio>
       
     <div id="container">    
+
+        <div id="gameStartDiv">
+            <div id="startTextBg1"><p></p></div>
+            <div id="startTextBg2"><p></p></div>
+            <div id="startText1"><p>Evolution Of Life</p></div>
+            <div id="startText2"><p>The goal of the game is to populate the Earth with life as we travel through its 4 billion year history. Click anywhere on the map to create new life. Some life can only be spawned in the ocean, and some only on land.</p></div>
+            <div id="startText3"><p>Select new life forms as they evolve here</p></div>
+            <div id="startText4"><p>This timer shows where you are in Earth's history, from 4 billion years ago to present. You have 60 seconds in this game.</p></div>
+            <button class="playButton" id="playButton1" type="button">Play</button> 
+            <button class="playButton" id="playButton2" type="button">Play</button> 
+        </div>
+        
         <div id="gameStatsDiv">
             <div class="logo"><img width="296px" height="149px" src="assets/Logo.png"/></div>
             <img id="sliderImgOverlay" src="assets/Slider2.png"/>
