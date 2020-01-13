@@ -375,9 +375,31 @@ function drawLayer(){
 function startGame(){
     gameStarted = true;
     drawLayer()
-    setTimeout(function() {
-          startSliderAndUpdatingLayer();          
-    }, 2000);
+    $('#playButton2').hide();
+    $('#startTextBg1').show();
+    $('#startText2').hide();
+    $('#startText3').hide();
+    $('#startText4').hide();
+    var playButton1 = document.getElementById("playButton1");
+    playButton1.onclick = function() {
+          $('#playButton1').hide();
+          $('#playButton2').show();
+          $('#startTextBg1').hide();
+          $('#startTextBg2').show();
+          $('#startText1').hide();
+          $('#startText2').show();
+          $('#startText3').show();
+          $('#startText4').show();
+          var playButton2 = document.getElementById("playButton2");
+          playButton2.onclick = function() {
+                $('#playButton2').hide();
+                $('#startText2').hide();
+                $('#startText3').hide();
+                $('#startText4').hide();
+                $('#startTextBg2').hide();
+                startSliderAndUpdatingLayer();  
+          }       
+    }
 }
 function CheckExtinctions(sliderTime) {
     for(i = 0; i < extinctions.length; i++) {
@@ -665,7 +687,18 @@ setInterval(function(){
 
   <body>
     <div id="container">
-        
+
+        <div id="gameStartDiv">
+            <div id="startTextBg1"><p></p></div>
+            <div id="startTextBg2"><p></p></div>
+            <div id="startText1"><p>Evolution Of Life</p></div>
+            <div id="startText2"><p>The goal of the game is to populate the Earth with life as we travel through its 4 billion year history. Click anywhere on the map to create new life. Some life can only be spawned in the ocean, and some only on land.</p></div>
+            <div id="startText3"><p>Select new life forms as they evolve here</p></div>
+            <div id="startText4"><p>This timer shows where you are in Earth's history, from 4 billion years ago to present. You have 60 seconds in this game.</p></div>
+            <button class="playButton" id="playButton1" type="button">Play</button> 
+            <button class="playButton" id="playButton2" type="button">Play</button> 
+        </div>
+
         <div id="gameStatsDiv">
             <div style="width:100%;height:10%;">  <input type="range" min="-4000" max="0" value="-4000" class="myslider"></div>
             <div id="mapViewDiv"></div>
@@ -677,6 +710,7 @@ setInterval(function(){
                     <input id="type4" class="" type="image" src="" alt="" />              
                 </div>
             </div>
+
         <div id="gameOverDiv">
             <div id="gameOverScreen1Bg"><p></p></div>
             <div id="gameOverScreen1Text"><p>Game Over</p></div> 
