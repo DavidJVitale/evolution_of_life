@@ -10,6 +10,6 @@ You must be in full screen mode on a desktop computer to play. If you can’t se
 
 ## About
 
-Created during the "Hack the Map 4" Esri internal hackathon by David Vitale, Indhu Kamala Kumar, Nimash Pawar, Amoli Mehta, and Denise Vachon.
+Created during the "Hack the Map 4" Esri internal hackathon by Indhu Kamala Kumar, Amoli Mehta, Nimish Pawar, Denise Vachon, and David Vitale.
 
 View more information [here](https://devpost.com/software/team-blue-giraffes-placeholder).
